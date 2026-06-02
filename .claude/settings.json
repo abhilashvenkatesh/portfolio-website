@@ -47,7 +47,14 @@
       "Bash(openspec init *)",
       "Bash(# Check if config.yaml has a schema field documented anywhere *)",
       "Read(//Users/abhilash/**)",
-      "Bash(/Library/Frameworks/Python.framework/Versions/3.13/bin/python3 \"/Users/abhilash/.claude/plugins/cache/Claudest/claude-memory/0.8.104/hooks/write_config.py\" --defaults)"
+      "Bash(/Library/Frameworks/Python.framework/Versions/3.13/bin/python3 \"/Users/abhilash/.claude/plugins/cache/Claudest/claude-memory/0.8.104/hooks/write_config.py\" --defaults)",
+      "Bash(gh repo *)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\('readme',''\\)[:8000]\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\({k:d[k] for k in ['scripts','dependencies','devDependencies'] if k in d}, indent=2\\)\\)\")",
+      "Bash(npx @google/design.md lint documentation/DESIGN.md)",
+      "Bash(node_modules/.bin/design.md --version)",
+      "Bash(npx design.md --version)",
+      "Bash(git rm *)"
     ]
   }
 }
