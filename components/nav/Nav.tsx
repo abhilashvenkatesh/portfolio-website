@@ -1,5 +1,6 @@
 import Link from "next/link";
 import NavLink from "./NavLink";
+import { getContact } from "@/lib/content";
 
 const LINKS = [
   { href: "/projects", label: "Projects" },
@@ -10,7 +11,10 @@ const LINKS = [
   { href: "/contact", label: "Contact" },
 ] as const;
 
-export default function Nav() {
+export default async function Nav() {
+  const { email } = getContact();
+  const mailtoHref = `mailto:${email}?subject=Hire%20me`;
+
   return (
     <header
       className="fixed top-0 inset-x-0 z-50 flex items-center justify-between h-15 bg-neutral border-b border-surface-alt"
@@ -27,6 +31,12 @@ export default function Nav() {
           <NavLink key={href} href={href} label={label} />
         ))}
       </nav>
+      <a
+        href={mailtoHref}
+        className="text-sm font-medium text-tertiary rounded-sm px-4 py-1.75 transition-colors duration-200 hover:bg-accent-dim no-underline"
+      >
+        Hire me
+      </a>
     </header>
   );
 }
