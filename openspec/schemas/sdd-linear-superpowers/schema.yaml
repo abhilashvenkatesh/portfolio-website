@@ -73,6 +73,12 @@ artifacts:
 
       ## Proposal Content
 
+      Before writing, read `documentation/REQUIREMENTS.md` for the full requirements
+      catalogue (epics, story IDs, acceptance criteria). Use it to:
+      - Verify the change aligns with or extends existing requirements
+      - Reference story IDs (e.g. NAV-1, CHAT-3) in What Changes and Impact
+      - Identify which acceptance criteria the change satisfies or introduces
+
       Create the proposal document that establishes WHY this change is needed.
 
       Record Linear metadata in the proposal frontmatter (see template):
@@ -192,6 +198,18 @@ artifacts:
     template: design.md
     instruction: >
       Create the design document that explains HOW to implement the change.
+
+
+      Before writing, read these project-specific documents:
+
+      - `documentation/DESIGN.md`: design tokens, color palette, typography,
+        component specs, border radius scale, do/don't rules. All technical
+        decisions must conform to the constraints defined here.
+
+      - `documentation/ARCHITECTURE.md`: file/folder structure, data layer,
+        theme system, routing strategy, chat architecture, CI pipeline, and
+        key dependencies. Decisions must align with the existing architecture
+        unless the design explicitly supersedes it with rationale.
 
 
       Read proposal.md for motivation and capabilities. Write the technical
