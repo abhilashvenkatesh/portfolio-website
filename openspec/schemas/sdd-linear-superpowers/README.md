@@ -1,6 +1,6 @@
 # sdd-linear-superpowers
 
-**Version 3** — Spec-driven development schema for Claude Code with Superpowers skills and Linear project management integration.
+**Version 4** — Spec-driven development schema for Claude Code with Superpowers skills and Linear project management integration.
 
 ---
 
@@ -12,7 +12,7 @@ Runs a structured feature-development lifecycle where:
 - **The repo** owns the technical "how" — design decisions, tasks, implementation, canonical specs
 - **Superpowers skills** enforce rigorous execution — TDD, code review, git worktrees, planning
 
-Every change flows through eight artifacts in order, each gating the next. The apply phase uses subagent-driven development so TDD and code review activate transitively on every task.
+Every change flows through eight artifacts in order, each gating the next. The apply phase uses subagent-driven development so TDD and code review activate transitively on every task. Version 4 keeps the full lifecycle while enforcing lean invocation contracts from the schema itself, without editing shared Superpowers skills.
 
 ---
 
@@ -102,7 +102,13 @@ Grouped checkbox list (`- [ ] X.Y description`). The apply phase tracks progress
 
 **Answers: Exactly how does each task get executed?**
 
-Invokes `superpowers:writing-plans`. Breaks each task from `tasks.md` into 2–5 minute micro-steps with exact file paths, code snippets, test commands, and commit points. Output goes to this change's `plan.md` — not to `docs/superpowers/plans/`.
+Invokes `superpowers:writing-plans` with schema-level overrides. Output goes to this change's `plan.md` — not to `docs/superpowers/plans/`.
+
+The schema requires:
+- Task-level execution steps by default
+- 2–5 minute micro-steps only for risky, ambiguous, dependency-heavy, multi-file, data/security/performance/migration work
+- Compact context packets instead of restating proposal/spec/design content
+- A post-write gate that rejects over-expanded or duplicated plans
 
 ---
 
@@ -128,10 +134,18 @@ Invokes `superpowers:subagent-driven-development`, which transitively enforces:
 - `superpowers:test-driven-development` — RED-GREEN-REFACTOR on every task; implementation code written before a failing test is deleted
 - `superpowers:requesting-code-review` — code-reviewer subagent after each task; final review before apply concludes
 
+Schema-level executor contract:
+- Subagents receive compact context packets by default
+- `implementation-evidence.md` is maintained during apply
+- `tasks.md` and `plan.md` checkboxes stay in sync
+- Review batching is allowed only for consecutive mechanical tasks touching the same requirement/file area
+- Behavioral, dependency, data, security, performance, migration, broad, or uncertain work keeps per-task review
+
 ### Step 3 — Verify
 
-Invokes `openspec-verify-change` (`/opsx:verify`) to produce `verify.md`. Six checks:
+Invokes `openspec-verify-change` (`/opsx:verify`) to produce `verify.md`. Seven checks:
 
+0. Schema contract compliance — evidence map exists, tasks map to commits/files/tests, plan did not duplicate upstream artifacts, micro-step expansion has risk reasons, review batches are justified
 1. `openspec validate --all --json` — structural validity of all artifacts
 2. Task completion — every `- [ ]` must be `- [x]`
 3. Delta spec sync state — each capability delta compared against canonical spec
@@ -206,7 +220,8 @@ openspec/
       specs/<capability>/spec.md       # Delta requirements
       design.md                        # Technical decisions
       tasks.md                         # Tracked checkbox list
-      plan.md                          # Micro-step execution plan
+      plan.md                          # Bounded execution plan
+      implementation-evidence.md       # Task/requirement → commit/files/tests map
       verify.md                        # Post-implementation verification report
       retrospective.md                 # Evidence-first cycle retrospective
     archive/

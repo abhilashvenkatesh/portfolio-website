@@ -6,6 +6,24 @@
 
 ---
 
+## 0. Schema Contract Compliance
+
+- [ ] `implementation-evidence.md` exists (or documented v3/pre-v4 exception)
+- [ ] Every completed `tasks.md` checkbox maps to commit/files/tests
+- [ ] `plan.md` avoids large proposal/spec/design restatement
+- [ ] Every micro-step-expanded task states a risk reason
+- [ ] Batched reviews explain why batching was allowed, or N/A
+
+**Evidence map summary**:
+
+| Task | Requirement / Scenario | Commit | Files | Tests | Review mode |
+|------|------------------------|--------|-------|-------|-------------|
+| —    | —                      | —      | —     | —     | per-task / batch / N/A |
+
+**Contract warnings or failures**: <!-- none, or list -->
+
+---
+
 ## 1. Structural Validation (`openspec validate --all --json`)
 
 - [ ] All items `"valid": true`

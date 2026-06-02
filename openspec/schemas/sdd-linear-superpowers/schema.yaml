@@ -1,5 +1,5 @@
 name: sdd-linear-superpowers
-version: 3
+version: 4
 description: >
   Spec-driven workflow integrated with Superpowers skills and Linear lifecycle.
   Requirements: Superpowers plugin installed, providing skills:
@@ -20,6 +20,9 @@ description: >
   proposal → specs → design → tasks → plan → verify → retrospective.
   Apply phase uses git worktrees + subagent-driven-development
   (brings TDD and code-review transitively).
+  Version 4 keeps the full lifecycle but enforces lean OpenSpec invocation
+  contracts at the schema boundary: compact context packets, bounded planning,
+  review batching only where safe, and implementation evidence for verify.
 
 artifacts:
   - id: proposal
@@ -286,7 +289,7 @@ artifacts:
 
   - id: plan
     generates: plan.md
-    description: Micro-task implementation plan using Superpowers writing-plans
+    description: Bounded implementation plan using Superpowers writing-plans
     template: plan.md
     instruction: |
       PRECHECK — required skill availability:
@@ -302,15 +305,41 @@ artifacts:
       - Do NOT write to `docs/superpowers/plans/`. Instead, write
         the plan directly to this change's `plan.md`.
 
-      The writing-plans skill will:
-      1. Read the tasks.md and design.md for context
-      2. Break each task into 2-5 minute micro-steps (TDD style)
-      3. Include exact file paths, code snippets, test commands
-      4. Add commit points after each task
+      ## Schema Invocation Contract — writing-plans
 
-      Pass the tasks.md content to the skill as the input for
-      decomposition. The plan should reference the specs and
-      design artifacts in this change directory.
+      Invoke **superpowers:writing-plans** with these schema-level
+      overrides. These override the skill's generic defaults for this
+      OpenSpec schema only:
+
+      - Treat proposal.md, specs/, design.md, and tasks.md as canonical
+        upstream context. Do NOT restate those artifacts.
+      - Use task-level execution steps by default.
+      - Expand to 2-5 minute RED/GREEN/REFACTOR micro-steps only for tasks
+        that are risky, ambiguous, introduce dependencies/test infrastructure,
+        touch 3+ files, or involve data/security/performance/migration work.
+      - For each task, include a compact context packet:
+        change name, task ID, requirement/scenario names, design decision IDs
+        if relevant, expected files, acceptance checks, test commands, and
+        commit point.
+      - Include code snippets only when the code is novel, risky, or not
+        obvious from the target file and acceptance checks.
+
+      ## Post-Write Schema Gate
+
+      After plan.md is written, inspect it before proceeding. If any check
+      fails, revise plan.md immediately:
+
+      - It must not duplicate large chunks of proposal.md, specs/, or design.md.
+      - It must not expand every task into micro-steps unless each expanded
+        task states the risk reason.
+      - Simple styling/copy/component tasks must stay compact.
+      - Each task must identify files, requirements/scenarios, test commands,
+        and commit point.
+      - It must mention that apply will maintain implementation-evidence.md.
+
+      Pass tasks.md plus the compact contract above to the skill as the input
+      for decomposition. The plan should reference, not reproduce, the specs
+      and design artifacts in this change directory.
     requires:
       - tasks
 
@@ -345,6 +374,18 @@ artifacts:
       The verify step MUST perform the following checks and record
       results in verify.md using the template:
 
+      0. **Schema contract compliance**:
+         - Confirm implementation-evidence.md exists and maps each completed
+           tasks.md checkbox to commit/files/tests. If it is absent, mark
+           PASS WITH WARNINGS only when the implementation predates schema v4;
+           otherwise mark FAIL.
+         - Confirm plan.md did not duplicate large chunks of proposal.md,
+           specs/, or design.md.
+         - Confirm any plan micro-step expansion has an explicit risk reason
+           for that task.
+         - Confirm any batched review in implementation-evidence.md states why
+           batching was allowed. If review was per-task throughout, record N/A.
+
       1. **Structural validation**: Run `openspec validate --all --json`
          in the repository root and confirm every item returns
          `"valid": true`. If any item fails, record the issues and
@@ -354,6 +395,10 @@ artifacts:
          `- [x]`. For any `- [ ]` remaining, document the reason
          (e.g. manual / out-of-scope / blocked) and whether it blocks
          archive.
+
+         Cross-check tasks.md against implementation-evidence.md: every
+         completed task must cite a commit or explain why no commit was
+         created (for example, documentation-only no-op).
 
       3. **Delta spec sync state**: For each directory under
          `openspec/changes/<name>/specs/`, compare against the
@@ -366,6 +411,9 @@ artifacts:
       4. **Design/specs coherence**: Spot-check that design.md
          decisions reference or align with the requirements listed
          in specs/. Record any drift as a warning (non-blocking).
+
+         Prefer the files/tests cited in implementation-evidence.md before
+         broad codebase searching.
 
       5. **Implementation signal**: Confirm all code changes are
          committed (no unstaged files in the worktree). Cite the
@@ -604,12 +652,37 @@ apply:
 
        Use the Skill tool to invoke
        **superpowers:subagent-driven-development** to execute
-       the plan.md micro-tasks with fresh subagents per task.
+       the plan.md steps with fresh subagents per task or approved batch.
 
        Tell the executor:
-       - Read plan.md in this change directory for micro-tasks
+       - Read plan.md in this change directory for executable steps
        - Update tasks.md checkboxes as coarse tasks complete
        - Work within the created worktree
+
+       ## Schema Invocation Contract — subagent-driven-development
+
+       These schema-level overrides apply to the generic skill for this
+       OpenSpec workflow:
+
+       - Use compact context packets for subagents rather than pasting whole
+         artifacts. Each packet contains: change name, task ID, requirement/
+         scenario names, design decision IDs if relevant, expected files,
+         acceptance checks, commands, and current commit range.
+       - Read full artifacts once as controller context. Escalate to full
+         artifact text only when ambiguity, reviewer drift, or subagent
+         questions require it.
+       - Maintain `implementation-evidence.md` in the change directory using
+         the schema template. Update it after every completed task or approved
+         batch.
+       - Keep tasks.md and plan.md checkboxes in sync as work completes.
+       - Review batching is allowed only for consecutive mechanical tasks
+         touching the same requirement/file area: styling, copy/content, or
+         simple component edits.
+       - Use per-task spec and code-quality review for behavior changes, new
+         dependencies/test infrastructure, data/security/performance/migration
+         work, tasks touching 3+ files, and any DONE_WITH_CONCERNS result.
+       - When batching reviews, record the batch reason, task IDs, commit range,
+         and reviewer outcome in implementation-evidence.md.
 
        IMPORTANT — transitive skill activation:
        subagent-driven-development internally enforces the

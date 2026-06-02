@@ -1,7 +1,8 @@
 # [Feature Name] Implementation Plan
 
 > **For agentic workers:** Use superpowers:subagent-driven-development
-> to implement this plan task-by-task.
+> to implement this plan task-by-task. Apply must maintain
+> implementation-evidence.md as tasks complete.
 
 **Goal:** <!-- One sentence -->
 
@@ -13,5 +14,8 @@
 
 ## Task 1: <!-- Component Name -->
 
-- [ ] **Step 1:** <!-- micro-step -->
-- [ ] **Step 2:** <!-- micro-step -->
+**Context packet:** <!-- task id, requirement/scenario, design decision, files, tests -->
+**Detail level:** <!-- compact | micro-steps because <risk reason> -->
+
+- [ ] **Step 1:** <!-- executable step -->
+- [ ] **Step 2:** <!-- executable step -->
