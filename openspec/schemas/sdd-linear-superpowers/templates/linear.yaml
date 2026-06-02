@@ -1,0 +1,10 @@
+team_id: <!-- Linear team ID -->
+team_name: <!-- Linear team name -->
+project_id: <!-- Linear project ID -->
+project_name: <!-- Linear project name -->
+label_filter: <!-- Linear issue label to filter candidates, or null for no filter -->
+
+# Populated at archive time — do not edit manually
+spec_documents: {}
+# spec_documents:
+#   capability-name: <Linear document ID>
