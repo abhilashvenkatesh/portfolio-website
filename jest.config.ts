@@ -10,6 +10,7 @@ const config: Config = {
     "^.+\\.tsx?$": ["ts-jest", { tsconfig: { jsx: "react-jsx", moduleResolution: "node16", module: "CommonJS" } }],
   },
   testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/*.test.[jt]s?(x)"],
+  testPathIgnorePatterns: ["/node_modules/", "/.claude/worktrees/"],
 };
 
 export default config;
