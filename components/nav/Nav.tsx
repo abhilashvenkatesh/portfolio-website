@@ -1,5 +1,6 @@
 import Link from "next/link";
 import NavLink from "./NavLink";
+import ThemeToggle from "./ThemeToggle";
 import { getContact } from "@/lib/content";
 
 const LINKS = [
@@ -26,11 +27,12 @@ export default async function Nav() {
       >
         abhilash
       </Link>
-      <nav className="flex items-center gap-1">
+      <nav className="hidden sm:flex items-center gap-1">
         {LINKS.map(({ href, label }) => (
           <NavLink key={href} href={href} label={label} />
         ))}
       </nav>
+      <ThemeToggle />
       <a
         href={mailtoHref}
         className="text-sm font-medium text-tertiary rounded-sm px-4 py-1.75 transition-colors duration-200 hover:bg-accent-dim no-underline"
