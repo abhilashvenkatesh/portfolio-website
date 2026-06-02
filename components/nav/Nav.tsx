@@ -1,6 +1,7 @@
 import Link from "next/link";
 import NavLink from "./NavLink";
 import ThemeToggle from "./ThemeToggle";
+import NavScrollWrapper from "./NavScrollWrapper";
 import { getContact } from "@/lib/content";
 
 const LINKS = [
@@ -17,10 +18,7 @@ export default async function Nav() {
   const mailtoHref = `mailto:${email}?subject=Hire%20me`;
 
   return (
-    <header
-      className="fixed top-0 inset-x-0 z-50 flex items-center justify-between h-15 bg-neutral border-b border-surface-alt"
-      style={{ paddingInline: "clamp(20px, 5vw, 64px)" }}
-    >
+    <NavScrollWrapper>
       <Link
         href="/"
         className="font-mono text-sm text-tertiary tracking-wider no-underline"
@@ -39,6 +37,6 @@ export default async function Nav() {
       >
         Hire me
       </a>
-    </header>
+    </NavScrollWrapper>
   );
 }
