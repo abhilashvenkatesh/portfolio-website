@@ -69,10 +69,16 @@
       "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d.get\\('instruction',''\\)[:500]\\); print\\('---'\\); print\\('outputPath:', d.get\\('outputPath'\\)\\)\")",
       "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d.get\\('instruction',''\\)\\)\")",
       "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d.get\\('template',''\\)\\)\")",
-      "Bash(openspec archive *)"
+      "Bash(openspec archive *)",
+      "Bash(openspec list *)",
+      "Bash(openspec validate *)",
+      "Skill(claude-memory:extract-learnings)",
+      "Skill(claude-memory:extract-learnings:*)",
+      "Bash(date -u +%Y-%m-%dT%H:%M:%SZ > /Users/abhilash/.claude/projects/-Users-abhilash-Projects-personal-portfolio-website/memory/.last-consolidation)"
     ],
     "additionalDirectories": [
-      "/Users/abhilash/Projects/personal/portfolio-website/app"
+      "/Users/abhilash/Projects/personal/portfolio-website/app",
+      "/Users/abhilash/.claude/projects/-Users-abhilash-Projects-personal-portfolio-website/memory"
     ]
   }
 }

@@ -183,7 +183,7 @@ artifacts:
 
       Fallback if skill unavailable: run the checks listed in verify.md template manually.
     requires:
-      - apply
+      - plan
 
   - id: retrospective
     generates: retrospective.md
@@ -218,6 +218,7 @@ artifacts:
   - id: archive
     generates: "archive/YYYY-MM-DD-<change-name>/"
     description: Archive a verified change and complete external handoff
+    template: archive.md
     instruction: |
       PRECHECK — all must pass. If any fails, STOP.
 
