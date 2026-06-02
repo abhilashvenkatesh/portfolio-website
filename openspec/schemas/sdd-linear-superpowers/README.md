@@ -42,7 +42,8 @@ Before writing anything, runs Linear setup then a mandatory grill session:
 1. Loads `openspec/linear.yaml` (or creates it by asking team → project → label filter, one question at a time — never auto-selects)
 2. Lists Backlog issues from the configured project; user selects which issue this change addresses
 3. Reads the issue for business context — no goals are invented beyond what the issue states
-4. **Grill session** (via `grill-with-docs`) — challenges intent against the domain model, sharpens terminology, surfaces contradictions before any artifact is written. Proposal.md is not started until grill reaches shared understanding
+4. Reads `documentation/REQUIREMENTS.md` — verifies the change aligns with existing requirements, references story IDs (e.g. NAV-1, CHAT-3) in What Changes and Impact, and identifies which acceptance criteria the change satisfies
+5. **Grill session** (via `grill-with-docs`) — challenges intent against the domain model, sharpens terminology, surfaces contradictions before any artifact is written. Proposal.md is not started until grill reaches shared understanding
 
 Writes `proposal.md` with:
 - Linear frontmatter (`linear_story_id`, `linear_story_url`)
@@ -74,6 +75,11 @@ Hard rules enforced by OpenSpec:
 ### design
 
 **Answers: How will it be implemented?**
+
+Before writing, reads two project documents:
+
+- `documentation/DESIGN.md` — design tokens, color palette, typography scale, component specs, border radius scale, do/don't rules. All decisions must conform.
+- `documentation/ARCHITECTURE.md` — file/folder structure, data layer, theme system, routing strategy, chat architecture, CI pipeline, key dependencies. Decisions must align or explicitly supersede with rationale.
 
 Written fresh from `proposal.md` — not generated from another artifact. Sections:
 

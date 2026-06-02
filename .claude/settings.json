@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website status)",
+      "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website diff)",
+      "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website add openspec/schemas/sdd-linear-superpowers/README.md .claude/settings.json .claude/skills/)",
+      "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website commit -m ' *)"
+    ]
+  }
+}
