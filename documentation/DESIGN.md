@@ -136,6 +136,9 @@ components:
     textColor: "{colors.tertiary}"
     rounded: "{rounded.sm}"
     padding: 7px 16px
+  button-secondary-hover:
+    backgroundColor: "{colors.accent-dim}"
+    textColor: "{colors.tertiary}"
   tag:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.secondary}"
