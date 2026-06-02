@@ -20,6 +20,9 @@ export default function ThemeProvider({
   useEffect(() => {
     const stored = localStorage.getItem("theme");
     const initial: Theme = stored === "dark" ? "dark" : "light";
+    // Setting state in effect is intentional: synchronising React state with
+    // localStorage after hydration is SSR-safe only here (window unavailable on server).
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTheme(initial);
     document.documentElement.setAttribute("data-theme", initial);
   }, []);
