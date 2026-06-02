@@ -4,6 +4,16 @@
 > Commit range: `<base-sha>..<head-sha>`
 > Worktree: <path or "merged to main">
 
+<!--
+For clean small changes, use this one-line form and delete the sections below:
+
+Skipped: clean small change, no workflow learnings. Evidence in verify.md.
+
+Use the full retrospective only when verify warnings/fixes, deferred tasks,
+skipped skills, plan deviations, surprises, new dependencies, migrations,
+security/performance/data concerns, or user request trigger it.
+-->
+
 ---
 
 ## 0. Evidence

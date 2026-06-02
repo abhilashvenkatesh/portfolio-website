@@ -1,3 +1,12 @@
+<!--
+For straightforward changes, replace this file with:
+
+Design: N/A — straightforward implementation; use existing patterns.
+
+Use full sections only when there is architecture, dependency, migration,
+security/performance, or cross-cutting ambiguity.
+-->
+
 ## Context
 
 <!--

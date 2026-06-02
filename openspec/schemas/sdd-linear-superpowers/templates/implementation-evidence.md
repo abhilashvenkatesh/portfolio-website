@@ -1,6 +1,9 @@
 # Implementation Evidence: <change-name>
 
 > Maintained during apply. Keep entries compact and factual.
+> Use this separate file for multi-task, multi-commit, subagent-heavy,
+> long-running, or review-batched changes. For small changes, put this
+> evidence table directly in verify.md instead.
 
 ## Baseline
 

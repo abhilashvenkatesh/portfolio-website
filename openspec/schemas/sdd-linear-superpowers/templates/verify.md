@@ -8,13 +8,14 @@
 
 ## 0. Schema Contract Compliance
 
-- [ ] `implementation-evidence.md` exists (or documented v3/pre-v4 exception)
-- [ ] Every completed `tasks.md` checkbox maps to commit/files/tests
+- [ ] Evidence table below maps every completed task to commit/files/tests
 - [ ] `plan.md` avoids large proposal/spec/design restatement
 - [ ] Every micro-step-expanded task states a risk reason
 - [ ] Batched reviews explain why batching was allowed, or N/A
+- [ ] Any `[~]` deferred tasks have reason and non-blocking/blocking impact
+- [ ] Design mitigations and task outcomes are reconciled
 
-**Evidence map summary**:
+**Evidence map**:
 
 | Task | Requirement / Scenario | Commit | Files | Tests | Review mode |
 |------|------------------------|--------|-------|-------|-------------|
@@ -44,13 +45,14 @@ Failed items (if any):
 
 ## 2. Task Completion (`tasks.md`)
 
-- [ ] All `- [ ]` changed to `- [x]`
+- [ ] No pending `- [ ]` tasks remain
+- [ ] All `[~]` deferred tasks are listed below
 
-**Incomplete tasks** (if any):
+**Deferred or incomplete tasks** (if any):
 
-| Task | Reason | Blocks archive? |
-|------|--------|-----------------|
-| —    | —      | —               |
+| Task | State | Reason | Blocks archive? |
+|------|-------|--------|-----------------|
+| —    | —     | —      | —               |
 
 ---
 
@@ -86,9 +88,9 @@ Spot-check that `design.md` decisions align with requirements in `specs/`:
 
 ---
 
-## 6. Deferred Dogfood vs Automated Test Equivalence
+## 6. Deferred Checks vs Automated-Test Equivalence
 
-For any `[~]` deferred tasks in plan.md, identify equivalent automated test
+For any `[~]` deferred tasks in tasks.md or plan.md, identify equivalent automated test
 coverage. No equivalent = real gap; record in retrospective Misses.
 
 | Deferred task (plan §) | Equivalent automated test | Coverage assessment | Real gap? |
