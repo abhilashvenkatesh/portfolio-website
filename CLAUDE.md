@@ -19,7 +19,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 npm run dev              # Next.js dev server
 npm run typecheck        # tsc --noEmit (primary correctness gate)
 npm run lint             # next lint (ESLint)
-npm run design-lint      # scripts/validate-design.ts
+npm run design-lint      # @google/design.md lint on documentation/DESIGN.md
 npm run validate-content # scripts/validate-content.ts
 npm run build            # next build
 ```
@@ -61,13 +61,6 @@ Home → Chat handoff: `ChatLauncher` navigates to `/chat?q=<encoded>`. On mount
 
 `components/ui/FadeIn.tsx` — `IntersectionObserver` wrapper. Transitions from `opacity-0 translate-y-[14px]` to visible over 500ms. Accepts `delay` (ms) for stagger. Used on every page for cards and timeline entries.
 
-## Design constraints (enforced by `validate-design.ts`)
+## Design constraints
 
-- **DM Mono** only for: logotype, tags, labels, metadata, code, stat labels. Never body copy or headings.
-- **Font weight max: 600** (`font-semibold`). Never `font-bold`, `font-extrabold`, `font-black`.
-- **Border radius**: 4 / 6 / 8 / 10 / 12 / 14 / 100px only. `12px` (`rounded-card`) for all content cards, message bubbles, and contact cards. No arbitrary `rounded-[...]` values outside this scale.
-- **One accent role per component** — not fill + border + text simultaneously. Exception: availability indicator.
-- **No hardcoded hex values** in JSX `className` strings.
-- **No `text-white` / `text-black`** except `#000` text on accent-fill buttons (contrast requirement).
-- **No box shadows in dark mode** — depth via background layering only.
-- **No `text-white` / `text-black`** except `#000` text on accent-fill CTA buttons.
+Enforced by `@google/design.md lint` on `documentation/DESIGN.md`. See `documentation/DESIGN.md` and `documentation/design/*.html` for the source-of-truth design system — tokens, WCAG contrast, component specs.
