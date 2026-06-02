@@ -58,6 +58,18 @@ The nav bar SHALL render correctly in both light (default) and dark (`[data-them
 
 ---
 
+### Requirement: Nav header contains hire-me CTA as a third flex child
+
+The nav header SHALL render three flex children in order: logo wordmark (left), nav links (centre/right), hire-me CTA anchor (far right). The hire-me CTA SHALL be a sibling of `<nav>`, not a child.
+
+#### Scenario: Header three-child layout
+
+- **WHEN** any page renders
+- **THEN** the `<header>` SHALL contain exactly three direct children: the logo link, the `<nav>` element, and the hire-me CTA anchor
+- **THEN** the hire-me CTA SHALL appear to the right of the nav links
+
+---
+
 ### Requirement: Logo wordmark navigates to home page
 
 The nav bar SHALL display the "abhilash" text wordmark in the top-left, styled as a link. Clicking it SHALL navigate to the home page (`/`) using client-side navigation.
