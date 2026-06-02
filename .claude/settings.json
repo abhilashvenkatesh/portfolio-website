@@ -38,7 +38,16 @@
       "Bash(pkill -f \"next dev\")",
       "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website diff --stat HEAD)",
       "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website log --oneline -5)",
-      "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website add app/ components/ styles/ scripts/ openspec/ package.json package-lock.json tsconfig.json eslint.config.mjs next.config.ts postcss.config.mjs public/ .gitignore .claude/settings.json)"
+      "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website add app/ components/ styles/ scripts/ openspec/ package.json package-lock.json tsconfig.json eslint.config.mjs next.config.ts postcss.config.mjs public/ .gitignore .claude/settings.json)",
+      "Bash(openspec --version)",
+      "Bash(openspec config *)",
+      "Bash(openspec --help)",
+      "Bash(openspec schema *)",
+      "Bash(openspec schemas *)",
+      "Bash(openspec init *)",
+      "Bash(# Check if config.yaml has a schema field documented anywhere *)",
+      "Read(//Users/abhilash/**)",
+      "Bash(/Library/Frameworks/Python.framework/Versions/3.13/bin/python3 \"/Users/abhilash/.claude/plugins/cache/Claudest/claude-memory/0.8.104/hooks/write_config.py\" --defaults)"
     ]
   }
 }

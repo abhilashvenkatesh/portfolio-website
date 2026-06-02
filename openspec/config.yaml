@@ -1,0 +1,8 @@
+schema: sdd-linear-superpowers
+
+# Project context
+context: |
+  Tech stack: Next.js 15 App Router, TypeScript, Tailwind CSS v4, WebLLM (in-browser WebGPU), MDX, Vercel
+  All content in content/ as JSON/MDX — no hardcoded content in components
+  Build-time SSG except /chat (client-only shell)
+  Linear project tracks work; Superpowers skills enforce TDD + code review + git worktrees
