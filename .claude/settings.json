@@ -54,7 +54,25 @@
       "Bash(npx @google/design.md lint documentation/DESIGN.md)",
       "Bash(node_modules/.bin/design.md --version)",
       "Bash(npx design.md --version)",
-      "Bash(git rm *)"
+      "Bash(git rm *)",
+      "Bash(xargs cat)",
+      "mcp__linear-server__save_issue",
+      "mcp__linear-server__save_comment",
+      "Bash(npm test *)",
+      "Bash(npx jest *)",
+      "Bash(git branch *)",
+      "Bash(git checkout *)",
+      "Bash(git reset *)",
+      "Bash(grep -v \"^$\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d['contextFiles'], indent=2\\)\\)\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d.get\\('outputPath','verify.md'\\)\\)\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d.get\\('instruction',''\\)[:500]\\); print\\('---'\\); print\\('outputPath:', d.get\\('outputPath'\\)\\)\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d.get\\('instruction',''\\)\\)\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d.get\\('template',''\\)\\)\")",
+      "Bash(openspec archive *)"
+    ],
+    "additionalDirectories": [
+      "/Users/abhilash/Projects/personal/portfolio-website/app"
     ]
   }
 }

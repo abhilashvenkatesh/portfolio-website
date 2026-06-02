@@ -5,9 +5,7 @@
 A fixed navigation bar that remains visible at all times, covers all primary page sections, indicates the active page, and respects the site's light/dark theme.
 
 ---
-
 ## Requirements
-
 ### Requirement: Nav bar is always visible while scrolling
 The nav bar SHALL be fixed to the top of the viewport at all times. Scrolling the page SHALL NOT cause the nav bar to leave the visible area.
 
@@ -60,15 +58,14 @@ The nav bar SHALL render correctly in both light (default) and dark (`[data-them
 
 ### Requirement: Nav header contains hire-me CTA as a third flex child
 
-The nav header SHALL render three flex children in order: logo wordmark (left), nav links (centre/right), hire-me CTA anchor (far right). The hire-me CTA SHALL be a sibling of `<nav>`, not a child.
+The nav header SHALL render four flex children in order: logo wordmark (left), nav links (centre), theme toggle button, hire-me CTA anchor (far right). The hire-me CTA and theme toggle SHALL be siblings of `<nav>`, not children.
 
-#### Scenario: Header three-child layout
+#### Scenario: Header four-child layout
 
 - **WHEN** any page renders
-- **THEN** the `<header>` SHALL contain exactly three direct children: the logo link, the `<nav>` element, and the hire-me CTA anchor
-- **THEN** the hire-me CTA SHALL appear to the right of the nav links
-
----
+- **THEN** the `<header>` SHALL contain exactly four direct children: the logo link, the `<nav>` element, the theme toggle button, and the hire-me CTA anchor
+- **THEN** the theme toggle button SHALL appear between the nav links and the hire-me CTA
+- **THEN** the hire-me CTA SHALL appear at the far right
 
 ### Requirement: Logo wordmark navigates to home page
 
@@ -88,3 +85,4 @@ The nav bar SHALL display the "abhilash" text wordmark in the top-left, styled a
 
 - **WHEN** the user is on the home page (`/`)
 - **THEN** the "abhilash" wordmark SHALL NOT receive `nav-link-active` styling (active state applies only to the six page-section links)
+
