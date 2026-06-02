@@ -81,7 +81,7 @@ Spot-check that `design.md` decisions align with requirements in `specs/`:
 
 ## 5. Implementation Signal
 
-- [ ] No unstaged files in worktree
+- [ ] No unstaged files in current checkout
 - [ ] All relevant commits pushed
 
 **Commit range** (if known): `<from-sha>..<to-sha>`
@@ -104,7 +104,7 @@ coverage. No equivalent = real gap; record in retrospective Misses.
 
 ## Overall Decision
 
-- [ ] ✅ PASS — proceed to finishing-a-development-branch and archive
+- [ ] ✅ PASS — proceed to retrospective, then archive
 - [ ] ⚠️ PASS WITH WARNINGS — proceed but note: `<description>`
 - [ ] ❌ FAIL — return to failed artifact, fix, re-run verify
 

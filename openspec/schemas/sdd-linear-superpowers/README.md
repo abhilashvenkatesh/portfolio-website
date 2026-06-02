@@ -7,14 +7,18 @@
 | Requirement        | Notes                                                                                                     |
 | ------------------ | --------------------------------------------------------------------------------------------------------- |
 | Claude Code        | Subagent support required — `executing-plans` fallback not supported                                      |
-| Superpowers plugin | `writing-plans`, `using-git-worktrees`, `subagent-driven-development`, `finishing-a-development-branch`   |
+| Superpowers plugin | `writing-plans`, `subagent-driven-development`, `finishing-a-development-branch`                          |
 | Linear MCP         | Optional — all hooks best-effort; unavailability is non-blocking                                          |
 
 ## Pipeline
 
 ```text
-proposal → specs → design → tasks → plan → [apply] → verify → retrospective
+proposal → specs → design → tasks → plan → apply → verify → retrospective → archive
 ```
+
+`apply` only implements the approved plan and syncs task state. Verification,
+retrospective, archive, Linear completion, and PR / merge handoff are standalone
+steps after implementation.
 
 ## Default Cuts
 
@@ -26,6 +30,7 @@ The full workflow is still available, but expensive steps are conditional:
 | Design | `Design: N/A` for straightforward changes; full design only when risk/ambiguity warrants it |
 | Plan | Task-level steps by default; micro-steps only with risk reason |
 | Evidence | Embedded in `verify.md` for small changes; separate `implementation-evidence.md` for long/multi-task/subagent-heavy work |
+| Apply | Main-agent fast path for small safe changes; subagent-driven execution for risky or multi-task work |
 | Review | Batched only for consecutive mechanical tasks; per-task for risky/behavioral work |
 | Retrospective | One-line skip for clean small changes; full retro only when triggered |
 | Linear specs | Summary comment by default; full Project Document mirror only with `sync_full_specs: true` |

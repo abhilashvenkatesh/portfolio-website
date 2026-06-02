@@ -1,8 +1,9 @@
 # [Feature Name] Implementation Plan
 
-> **For agentic workers:** Use superpowers:subagent-driven-development
-> to implement this plan task-by-task. For small changes, capture evidence
-> in verify.md; for multi-task/subagent-heavy changes, maintain
+> **For agentic workers:** Apply may use the main-agent fast path for small,
+> safe changes. Use superpowers:subagent-driven-development for risky,
+> multi-task, or review-batched work. For small changes, capture evidence in
+> verify.md; for multi-task/subagent-heavy changes, maintain
 > implementation-evidence.md during apply.
 
 **Goal:** <!-- One sentence -->

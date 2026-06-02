@@ -2,13 +2,13 @@ name: sdd-linear-superpowers
 version: 5
 description: >
   Spec-driven workflow with Superpowers skills and Linear lifecycle.
-  Requires: Superpowers plugin (writing-plans, using-git-worktrees,
-  subagent-driven-development, finishing-a-development-branch),
+  Requires: Superpowers plugin (writing-plans, subagent-driven-development,
+  finishing-a-development-branch),
   Claude Code with subagent support (no executing-plans fallback — loses TDD + code review).
   Linear hooks are best-effort — unavailability is non-blocking; skip silently.
   Linear owns the business "what"; the repo owns the technical "how".
   Linear spec mirroring is summary-first; full document mirroring is opt-in.
-  Pipeline: proposal → specs → design → tasks → plan → [apply] → verify → retrospective.
+  Pipeline: proposal → specs → design → tasks → plan → apply → verify → retrospective → archive.
   Version 5 cuts default ceremony: conditional grill/full design/full retro,
   bounded plans, optional separate evidence, and archive gates.
 
@@ -169,8 +169,7 @@ artifacts:
       Invoke **openspec-verify-change**. Produce verify.md per template.
       Re-run until Overall Decision is PASS or PASS WITH WARNINGS.
 
-      Timing: verify runs AFTER apply completes — `requires: [plan]` is for schema
-      graph ordering only, not an early-exit trigger.
+      Timing: verify runs AFTER apply completes.
 
       Schema checks to include:
       - Evidence table in verify.md maps tasks to commits/files/tests.
@@ -184,7 +183,7 @@ artifacts:
 
       Fallback if skill unavailable: run the checks listed in verify.md template manually.
     requires:
-      - plan
+      - apply
 
   - id: retrospective
     generates: retrospective.md
@@ -216,34 +215,75 @@ artifacts:
     requires:
       - verify
 
+  - id: archive
+    generates: "archive/YYYY-MM-DD-<change-name>/"
+    description: Archive a verified change and complete external handoff
+    instruction: |
+      PRECHECK — all must pass. If any fails, STOP.
+
+      1. test -f openspec/changes/<change-name>/verify.md
+      2. test -f openspec/changes/<change-name>/retrospective.md
+      3. verify.md Overall Decision is PASS or PASS WITH WARNINGS
+      4. tasks.md has no `- [ ]`; `[~]` rows are allowed only if verify marks
+         them non-blocking or explicitly accepted
+      5. plan/task/evidence gaps from verify are resolved or marked warnings
+
+      Run `openspec archive -y` (or `/opsx:archive`).
+
+      Linear post-archive (best effort, skip silently if MCP unavailable;
+      run ONLY after archive succeeds):
+      - Add a summary comment with archive path, changed capabilities, and
+        verify decision.
+      - Mirror full specs to Linear Project Documents only when
+        `openspec/linear.yaml` has `sync_full_specs: true`. If enabled,
+        `list_documents` then `save_document` per archived capability, title
+        `OpenSpec: <capability-name>`. Update existing docs — no duplicates.
+        Persist doc IDs in `openspec/linear.yaml` under `spec_documents`.
+      - `save_issue` → Done.
+      - Comment: "Implementation complete and archived." If full spec sync
+        ran, append "Specs mirrored to Linear Project Documents."
+
+      PR / merge handoff:
+      - Invoke **superpowers:finishing-a-development-branch** after archive.
+      - Branch diff MUST contain complete archived cycle.
+      - If retrospective or archive was skipped, STOP and complete first.
+    requires:
+      - retrospective
+
 apply:
   requires:
     - plan
   tracks: tasks.md
   instruction: |
-    0. **Pre-flight** — confirm all required skills exist. STOP if any missing:
-       - superpowers:using-git-worktrees
-       - superpowers:subagent-driven-development
-       - superpowers:finishing-a-development-branch
+    0. **Pre-flight**:
+       Confirm `superpowers:subagent-driven-development` exists when the plan is
+       multi-task, risky, review-batched, or explicitly calls for subagents.
 
        Scan plan.md for CLI tools (npm, docker, gh, etc.). Surface missing tools as
        WARNING (not STOP) — list once at apply start.
+
+       Before editing, inspect the current checkout status and avoid overwriting
+       unrelated user changes.
 
     0b. **Linear** (best effort, skip silently if MCP unavailable):
         Read `linear_story_id` from proposal.md frontmatter. `save_issue` → In Progress.
         Comment: "Implementation started. Working through
         `openspec/changes/<change-name>/tasks.md`."
 
-    1. **Workspace**: Invoke **superpowers:using-git-worktrees**.
+    1. **Execute**:
+       Small-change fast path — use the main agent when all are true:
+       - touches <=2 implementation files
+       - no new dependency, test infra, data/security/perf/migration change
+       - no ambiguous design or capability boundary
+       - no plan instruction requiring subagents
 
-    2. **Execute**: Invoke **superpowers:subagent-driven-development**.
+       For all other changes, invoke **superpowers:subagent-driven-development**.
        Schema overrides:
        - Compact context packets per subagent (change name, task ID, req/scenario names,
          design decision IDs if relevant, expected files, acceptance checks, commands,
          current commit range).
        - Read full artifacts once as controller context; escalate to full text only
          when ambiguity requires it.
-       - For small changes, capture task/commit/file/test evidence directly in verify.md.
        - Maintain separate `implementation-evidence.md` only for multi-task,
          multi-commit, subagent-heavy, long-running, or review-batched changes.
        - Sync tasks.md and plan.md checkboxes as work completes.
@@ -253,37 +293,14 @@ apply:
        - Per-task review for: behavior changes, new deps/test infra,
          data/security/perf/migration, tasks touching 3+ files, DONE_WITH_CONCERNS.
 
-       TDD and code-review activate transitively — do NOT invoke them manually.
+       TDD and code-review activate transitively for subagent-driven work; for the
+       small-change fast path, perform equivalent RED/GREEN and review checks in
+       the main agent.
 
-    3. **Verify**: Invoke **openspec-verify-change**. Re-run until PASS or PASS WITH WARNINGS.
+    2. **Stop point**:
+       Apply is complete when implementation is done, required tests/checks pass,
+       and tasks.md / plan.md checkboxes are synced.
 
-    4. **Retrospective**: Produce `retrospective` artifact before opening any PR.
-       Use the retrospective artifact's trigger policy. One-line skip is valid
-       for clean small changes.
-
-    5. **Archive gate + archive**:
-       Before archive, confirm:
-       - verify.md exists and Overall Decision is PASS or PASS WITH WARNINGS
-       - retrospective.md exists (full or one-line skip)
-       - tasks.md has no `- [ ]`; `[~]` rows are allowed only if verify marks
-         them non-blocking or explicitly accepted
-       - plan/task/evidence gaps from verify are resolved or marked warnings
-
-       Then run `openspec archive -y` (or `/opsx:archive`).
-
-    5b. **Linear post-archive** (best effort, skip silently if MCP unavailable;
-        run ONLY after archive succeeds):
-        - Add a summary comment with archive path, changed capabilities, and
-          verify decision.
-        - Mirror full specs to Linear Project Documents only when
-          `openspec/linear.yaml` has `sync_full_specs: true`. If enabled,
-          `list_documents` then `save_document` per archived capability, title
-          `OpenSpec: <capability-name>`. Update existing docs — no duplicates.
-          Persist doc IDs in `openspec/linear.yaml` under `spec_documents`.
-        - `save_issue` → Done.
-        - Comment: "Implementation complete and archived." If full spec sync
-          ran, append "Specs mirrored to Linear Project Documents."
-
-    6. **PR**: Invoke **superpowers:finishing-a-development-branch**.
-       Branch diff MUST contain complete archived cycle (retro + archive done).
-       If either was skipped, STOP and complete first.
+       Do not verify, write retrospective, archive, update Linear to Done, or run
+       PR / merge handoff during apply. Those are handled by the standalone
+       verify, retrospective, and archive steps.

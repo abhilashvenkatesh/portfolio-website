@@ -62,7 +62,6 @@ Commit chain:
 | Skill                                            | Used |
 |--------------------------------------------------|------|
 | superpowers:writing-plans                        |      |
-| superpowers:using-git-worktrees                  |      |
 | superpowers:subagent-driven-development          |      |
 | (transitive) superpowers:test-driven-development |      |
 | (transitive) superpowers:requesting-code-review  |      |
