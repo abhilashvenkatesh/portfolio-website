@@ -4,6 +4,21 @@
 **Verified at**: `YYYY-MM-DD HH:mm`
 **Verifier**: `<who / which agent>`
 
+```yaml
+phase_metrics:
+  phase: verify
+  started_at: null
+  completed_at: null
+  elapsed_seconds: null
+  token_usage:
+    source: unavailable
+    input_tokens: null
+    output_tokens: null
+    total_tokens: null
+  confidence: low
+  notes: null
+```
+
 ---
 
 ## 1. Structural Validation (`openspec validate --all --json`)

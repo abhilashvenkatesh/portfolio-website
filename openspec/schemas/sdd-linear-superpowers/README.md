@@ -69,6 +69,16 @@ Requirements use `### Requirement:`, scenarios use `#### Scenario:` — both req
 | Before apply | `apply` PRECHECK | Proposal change committed to `main` |
 | Before archive | after `verify` + `retrospective` | Implementation merged to `main`; retrospective metrics complete; archive runs from `main` |
 
+## Phase Metrics
+
+Every generated artifact carries a `phase_metrics` YAML block. `tasks.md` also carries
+`apply_metrics`, and `retrospective.md` carries `archive_metrics`.
+
+Retrospective aggregation uses these artifact-local metrics as the primary source for
+phase timing and token usage. Git is only a fallback for commit ranges, diff size, file
+counts, and missing timing estimates. Unknown token usage should be recorded as
+`source: unavailable` with notes, not left blank.
+
 ## Validation
 
 ```bash

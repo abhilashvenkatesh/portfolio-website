@@ -22,6 +22,12 @@ artifacts:
       - `sdd_experiment.accepted_at`
       - `sdd_experiment.token_usage_source` (`api`, `manual`, `estimated`, or `unavailable`)
 
+      Phase metrics are REQUIRED in the `phase_metrics` YAML block at the top of proposal.md:
+      - Set `started_at` when proposal work begins and `completed_at` when proposal.md is ready.
+      - Set `elapsed_seconds` from those timestamps when both are known.
+      - Fill `token_usage` from API/session usage when available. If unavailable, keep numeric fields null,
+        set `source: unavailable`, and explain the missing source in `notes`.
+
       Reference documents:
       - `documentation/REQUIREMENTS.md` — acceptance criteria and story IDs
 
@@ -64,6 +70,9 @@ artifacts:
       PRECHECK: Invoke the `gherkin-authoring` skill before writing spec files.
 
       Create OpenSpec Markdown spec files defining WHAT the system should do.
+      Each spec file MUST retain and complete its top-level `phase_metrics` block for the specs phase.
+      If multiple spec files are created, either record per-file timings/tokens or repeat the same shared
+      phase-level metrics in each file with a note identifying the shared source.
 
       ## File Placement
       - One spec file per capability listed in proposal
@@ -114,6 +123,8 @@ artifacts:
       - `documentation/ARCHITECTURE.md` — file structure, data schemas, rendering strategy
 
       Create a design document explaining HOW to implement the change.
+      Complete the `phase_metrics` block at the top of design.md before closing the design phase.
+      Use exact timestamps and token usage when available; otherwise mark unavailable explicitly with notes.
 
       ## Sections
       - **Context**: Background, current state, constraints, stakeholders
@@ -144,6 +155,8 @@ artifacts:
       - design
     instruction: |
       Create a task list breaking down the implementation work.
+      Complete the `phase_metrics` block for tasks planning before closing the tasks phase.
+      Leave `apply_metrics` in place for the apply phase to update while implementation runs.
 
       **IMPORTANT**: Follow the template exactly; the apply phase parses checkbox format to track progress.
       Tasks not using `- [ ]` won't be tracked.
@@ -191,6 +204,9 @@ artifacts:
       Only after commit evidence and task progress are positive, and git status is clean, invoke `openspec-verify-change` skill.
       PRECHECK: Invoke `verification-before-completion` before claiming the implementation is complete or ready to archive.
 
+      Complete the `phase_metrics` block at the top of verify.md before closing the verify phase.
+      Use exact timestamps and token usage when available; otherwise mark unavailable explicitly with notes.
+
       The verify step MUST perform these checks and record results in verify.md:
 
       1. **Structural validation**: Run `openspec validate --all --json` and confirm all `"valid": true`.
@@ -220,9 +236,16 @@ artifacts:
       Process:
       1. Gather evidence — run `git log --oneline <base>..HEAD` for commit range.
          Read tasks.md for plan-vs-actual comparison.
-      2. Gather metrics from proposal.md, tasks.md, specs/**/spec.md, verify.md, and git.
-         Capture timing and token usage when available. If a metric is unavailable or estimated,
-         label its source and confidence explicitly.
+      2. Gather metrics from artifact metric blocks first:
+         - proposal.md `phase_metrics` -> proposal
+         - specs/**/spec.md `phase_metrics` -> specs
+         - design.md `phase_metrics` -> design
+         - tasks.md `phase_metrics` -> tasks
+         - tasks.md `apply_metrics` -> apply
+         - verify.md `phase_metrics` -> verify
+         - retrospective.md `phase_metrics` -> retrospective
+         Use git only as fallback for commit ranges, diff sizes, and missing timing estimates.
+         If a metric is unavailable or estimated, label its source and confidence explicitly.
       3. Write all sections using the template (§0 Metrics / Evidence + §1-§6 analysis).
          Each claim cites a commit hash, file path, or measurable fact.
       4. §4 Skill compliance — list every schema skill, mark ✓/✗. Any ✗ MUST explain
@@ -235,6 +258,11 @@ artifacts:
       GATE before closing: run `grep -c '^\- \[ \]' retrospective.md`. If > 0, act on unchecked
       §6 promotes (persist to memory, CLAUDE.md, schema, or skill) BEFORE archiving. Unacted
       promotes are lost at archive — the retro is the last moment they're surfaced.
+
+      Archive metrics:
+      - Before or immediately after archive, update `archive_metrics` in retrospective.md.
+      - If archive moves the change first, update `openspec/changes/archive/YYYY-MM-DD-<name>/retrospective.md`.
+      - Do not transition Linear to Done until archive metrics and the §0 Metrics / Evidence summary are posted.
 
 apply:
   requires:
@@ -251,6 +279,13 @@ apply:
 
     Read context files, work through pending tasks, mark complete as you go.
     Pause if hitting blockers or needing clarification.
+
+    Apply metrics:
+    - Update `apply_metrics` in `openspec/changes/<name>/tasks.md`.
+    - Set `started_at` before the first implementation edit.
+    - Set `completed_at` after tasks are complete, required checks pass, and implementation/artifacts are committed.
+    - Set `elapsed_seconds` from those timestamps when both are known.
+    - Fill token usage from API/session usage when available; otherwise set `source: unavailable` with notes.
 
     Mandatory verification discipline:
     - Add or update unit tests for every change before marking implementation complete.

@@ -3,6 +3,34 @@
 > Written: <YYYY-MM-DD> (after verify passed)
 > Commit range: `<base-sha>..<head-sha>`
 
+```yaml
+phase_metrics:
+  phase: retrospective
+  started_at: null
+  completed_at: null
+  elapsed_seconds: null
+  token_usage:
+    source: unavailable
+    input_tokens: null
+    output_tokens: null
+    total_tokens: null
+  confidence: low
+  notes: null
+
+archive_metrics:
+  phase: archive
+  started_at: null
+  completed_at: null
+  elapsed_seconds: null
+  token_usage:
+    source: unavailable
+    input_tokens: null
+    output_tokens: null
+    total_tokens: null
+  confidence: low
+  notes: "Fill immediately before or after archive; if archive moves this file first, update it in the archived path."
+```
+
 ---
 
 ## 0. Metrics / Evidence
@@ -37,6 +65,19 @@
 - **Input tokens**: <n or unknown>
 - **Output tokens**: <n or unknown>
 - **Total tokens**: <n or unknown>
+
+### Phase Breakdown
+
+| Phase | Source artifact | Started | Completed | Elapsed | Input | Output | Total | Confidence |
+|---|---|---:|---:|---:|---:|---:|---:|---|
+| proposal | proposal.md | <ts/null> | <ts/null> | <seconds/null> | <n/null> | <n/null> | <n/null> | high / medium / low |
+| specs | specs/**/spec.md | <ts/null> | <ts/null> | <seconds/null> | <n/null> | <n/null> | <n/null> | high / medium / low |
+| design | design.md | <ts/null> | <ts/null> | <seconds/null> | <n/null> | <n/null> | <n/null> | high / medium / low |
+| tasks | tasks.md | <ts/null> | <ts/null> | <seconds/null> | <n/null> | <n/null> | <n/null> | high / medium / low |
+| apply | tasks.md apply_metrics | <ts/null> | <ts/null> | <seconds/null> | <n/null> | <n/null> | <n/null> | high / medium / low |
+| verify | verify.md | <ts/null> | <ts/null> | <seconds/null> | <n/null> | <n/null> | <n/null> | high / medium / low |
+| retrospective | retrospective.md | <ts/null> | <ts/null> | <seconds/null> | <n/null> | <n/null> | <n/null> | high / medium / low |
+| archive | retrospective.md archive_metrics | <ts/null> | <ts/null> | <seconds/null> | <n/null> | <n/null> | <n/null> | high / medium / low |
 
 ### Quality Gates
 
