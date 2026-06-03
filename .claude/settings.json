@@ -94,7 +94,10 @@
       "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d.get\\('outputPath','verify.md'\\)\\); print\\('---'\\); print\\(d.get\\('template',''\\)[:500]\\)\")",
       "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website diff HEAD --stat)",
       "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website log --oneline -3)",
-      "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website add components/nav/Nav.tsx components/nav/NavScrollWrapper.tsx components/nav/__tests__/Nav.test.tsx components/nav/__tests__/NavScrollWrapper.test.tsx CONTEXT.md .claude/settings.json openspec/linear.yaml openspec/changes/nav-mobile-navigation/)"
+      "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website add components/nav/Nav.tsx components/nav/NavScrollWrapper.tsx components/nav/__tests__/Nav.test.tsx components/nav/__tests__/NavScrollWrapper.test.tsx CONTEXT.md .claude/settings.json openspec/linear.yaml openspec/changes/nav-mobile-navigation/)",
+      "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website log --oneline 8c5e05d..HEAD)",
+      "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website diff 8c5e05d..289bd07 --stat)",
+      "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website add openspec/changes/nav-mobile-navigation/retrospective.md .claude/settings.json)"
     ],
     "additionalDirectories": [
       "/Users/abhilash/Projects/personal/portfolio-website/app",
