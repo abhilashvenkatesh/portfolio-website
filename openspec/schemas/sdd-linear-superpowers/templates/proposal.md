@@ -4,25 +4,8 @@ linear_story_url: "<optional Linear issue URL>"
 sdd_experiment:
   method: "sdd"
   comparator: "<human / vibe-coding / none>"
-  started_at: "<YYYY-MM-DDTHH:mm:ssZ or null>"
   accepted_at: null
-  token_usage_source: "api / manual / estimated / unavailable"
 ---
-
-```yaml
-phase_metrics:
-  phase: proposal
-  started_at: null
-  completed_at: null
-  elapsed_seconds: null
-  token_usage:
-    source: unavailable
-    input_tokens: null
-    output_tokens: null
-    total_tokens: null
-  confidence: low
-  notes: null
-```
 
 ## Why
 

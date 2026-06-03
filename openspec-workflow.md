@@ -56,28 +56,6 @@ openspec/changes/<change-name>/
       spec.md
 ```
 
-Each phase artifact starts with a machine-readable metrics block:
-
-```yaml
-phase_metrics:
-  phase: <proposal/specs/design/tasks/verify/retrospective>
-  started_at: <ISO timestamp or null>
-  completed_at: <ISO timestamp or null>
-  elapsed_seconds: <number or null>
-  token_usage:
-    source: <api/manual/estimated/unavailable>
-    input_tokens: <number or null>
-    output_tokens: <number or null>
-    total_tokens: <number or null>
-  confidence: <high/medium/low>
-  notes: <string or null>
-```
-
-`tasks.md` also contains `apply_metrics` because apply updates tasks as implementation progresses.
-`retrospective.md` also contains `archive_metrics` so archive duration and token usage can be posted to Linear after the folder is moved.
-
-Rule: do not close a phase with blank metrics. Use exact values when the tool/session exposes them. If a value is genuinely unavailable, set `source: unavailable`, leave numeric values `null`, and explain why in `notes`.
-
 Archived changes move to:
 
 ```text
@@ -137,8 +115,6 @@ linear_story_id: "POR-96"
 linear_story_url: "https://linear.app/..."
 ---
 ```
-
-The proposal `phase_metrics` block must be completed before moving to specs.
 
 ## 4. Phase 2: Specs
 
@@ -222,8 +198,6 @@ Schema prechecks:
 - Confirm proposal artifacts are committed before continuing.
 - Use `gherkin-authoring` before writing spec files.
 
-Each delta spec file must keep and complete its `phase_metrics` block. For multiple spec files, record per-file metrics or repeat the shared specs-phase metrics with a note.
-
 ## 5. Phase 3: Design
 
 Purpose: explain how the change will be implemented and why the chosen approach is appropriate.
@@ -286,8 +260,6 @@ Schema prechecks:
 - Use `c4-architecture` if system boundaries or architectural components are involved.
 - Use `vercel-react-best-practices` for React, Next.js routing, rendering, hydration, data loading, or performance-sensitive work.
 
-The design `phase_metrics` block must be completed before moving to tasks.
-
 ## 6. Phase 4: Tasks
 
 Purpose: create a dependency-ordered implementation checklist.
@@ -327,8 +299,6 @@ Rules:
 openspec validate <change-name> --type change --strict
 ```
 
-The tasks `phase_metrics` block must be completed before apply begins. Leave `apply_metrics` blank until implementation starts.
-
 ## 7. Phase 5: Apply
 
 Purpose: implement the change, keep tasks updated, and produce reviewable code.
@@ -359,11 +329,9 @@ Rules:
 - Use systematic debugging for failing tests, bugs, or unexpected behavior.
 - Request code review when implementation is complete.
 - Move the bound Linear story to In Progress.
-- Fill `apply_metrics.started_at` in `tasks.md` before the first implementation edit.
 - Commit implementation before `/opsx:verify`. This is a hard apply-exit gate:
   after tasks are checked and local quality gates pass, `git status --short`
   must be clean and implementation commits must exist.
-- Fill `apply_metrics.completed_at`, `elapsed_seconds`, and token usage before leaving apply.
 
 Recommended local verification for this repo:
 
@@ -481,8 +449,6 @@ Overall decision should be one of:
 
 The required next command after a passing verify is `/opsx:retrospective`, not `/opsx:archive`.
 
-The verify `phase_metrics` block must be completed before verify is considered done.
-
 Schema prechecks:
 
 - Use `openspec-verify-change`.
@@ -500,7 +466,7 @@ retrospective.md
 
 Write the retrospective after verify passes and before opening the PR.
 
-Required metrics and evidence:
+Required evidence:
 
 - Commit range.
 - Diff size.
@@ -509,9 +475,6 @@ Required metrics and evidence:
 - Requirement and scenario counts.
 - Method: SDD, human, or vibe.
 - Linear story binding.
-- Timing source and cycle-time breakdown.
-- Token usage source and input/output/total token counts when available.
-- Active hours estimate.
 - New dependencies.
 - Bugs or regressions.
 - OpenSpec validation result.
@@ -520,25 +483,10 @@ Required metrics and evidence:
 - Overall SDD score and confidence notes.
 - Commit chain.
 
-Retrospective must aggregate timing/token usage from artifact metrics first:
-
-| Phase | Source |
-|---|---|
-| proposal | `proposal.md` `phase_metrics` |
-| specs | `specs/**/spec.md` `phase_metrics` |
-| design | `design.md` `phase_metrics` |
-| tasks | `tasks.md` `phase_metrics` |
-| apply | `tasks.md` `apply_metrics` |
-| verify | `verify.md` `phase_metrics` |
-| retrospective | `retrospective.md` `phase_metrics` |
-| archive | `retrospective.md` `archive_metrics` |
-
-Git may be used for commit range, diff size, file counts, and fallback timing estimates, but artifact metrics are the primary source.
-
 Required analysis sections:
 
 ```markdown
-## 0. Metrics / Evidence
+## 0. Evidence
 ## 1. Wins
 ## 2. Misses
 ## 3. Plan deviations
@@ -568,10 +516,9 @@ Archive should happen only after:
 - Implementation is complete.
 - Tasks are all checked.
 - Verification passes.
-- Retrospective is complete with §0 Metrics / Evidence, or intentionally skipped with a reason for trivial single-commit fixes.
+- Retrospective is complete with §0 Evidence, or intentionally skipped with a reason for trivial single-commit fixes.
 - Promote candidates have been handled.
 - Implementation is merged to `main`.
-- `retrospective.md` contains `archive_metrics`; update it before archive starts or immediately after the folder moves.
 
 Archive effects:
 
@@ -583,15 +530,14 @@ openspec/changes/archive/YYYY-MM-DD-<change-name>/
 ```
 
 - Linear Project Documents are synced from canonical OpenSpec specs if archive document sync is enabled.
-- The bound Linear story can move to Done only after OpenSpec archive succeeds and the retrospective §0 Metrics / Evidence summary has been posted to the Linear story.
-- The Linear summary should include the phase timing/token table from retrospective §0.
+- The bound Linear story can move to Done only after OpenSpec archive succeeds and the retrospective §0 Evidence summary has been posted to the Linear story.
 
 Archive-time Linear mirror rules from `openspec/config.yaml`:
 
 - Linear Project Documents are disposable mirrors.
 - Document titles use `OpenSpec: <capability-name>`.
 - Full document bodies may be replaced with canonical OpenSpec spec content.
-- Linear issue/card comments may receive the retrospective §0 Metrics / Evidence summary for SDD measurement reporting.
+- Linear issue/card comments may receive the retrospective §0 Evidence summary.
 - Generic non-document Linear project resources are out of scope.
 
 ## 11. Schema Artifact Dependency Graph

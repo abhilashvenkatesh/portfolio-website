@@ -4,21 +4,6 @@
 **Verified at**: `YYYY-MM-DD HH:mm`
 **Verifier**: `<who / which agent>`
 
-```yaml
-phase_metrics:
-  phase: verify
-  started_at: null
-  completed_at: null
-  elapsed_seconds: null
-  token_usage:
-    source: unavailable
-    input_tokens: null
-    output_tokens: null
-    total_tokens: null
-  confidence: low
-  notes: null
-```
-
 ---
 
 ## 1. Structural Validation (`openspec validate --all --json`)
@@ -129,4 +114,4 @@ commit the implementation and artifact updates, then re-run verify.
 - [ ] ⚠️ PASS WITH WARNINGS — can proceed to retrospective, note: `<detail>`
 - [ ] ❌ FAIL — return to failing artifact, fix, re-run verify
 
-**Next step**: Run `/opsx:retrospective`. Do not run `/opsx:archive` until retrospective.md exists, §0 Metrics / Evidence is complete, and promote candidates are handled.
+**Next step**: Run `/opsx:retrospective`. Do not run `/opsx:archive` until retrospective.md exists, §0 Evidence is complete, and promote candidates are handled.

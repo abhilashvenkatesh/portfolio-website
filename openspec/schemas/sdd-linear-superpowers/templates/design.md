@@ -1,18 +1,3 @@
-```yaml
-phase_metrics:
-  phase: design
-  started_at: null
-  completed_at: null
-  elapsed_seconds: null
-  token_usage:
-    source: unavailable
-    input_tokens: null
-    output_tokens: null
-    total_tokens: null
-  confidence: low
-  notes: null
-```
-
 ## Context
 
 <!-- Background, current state, constraints, stakeholders -->
