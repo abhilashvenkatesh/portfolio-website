@@ -2,7 +2,7 @@
 
 ### Requirement: footer-rendered-on-every-page
 
-A persistent footer appears at the bottom of every page in the portfolio site.
+The site SHALL render a persistent footer at the bottom of every page.
 
 #### Scenario: visitor loads any page
 
@@ -14,7 +14,7 @@ AND the footer contains icon links for GitHub, LinkedIn, and Email
 
 ### Requirement: social-links-navigate-correctly
 
-Each social link in the footer navigates to the correct external destination.
+Each social link in the footer MUST navigate to the correct external destination.
 
 #### Scenario: visitor clicks GitHub link
 
@@ -36,7 +36,7 @@ THEN the visitor's mail client opens with Abhilash's email address pre-filled
 
 ### Requirement: social-links-hover-colour
 
-Each icon link in the footer changes colour when hovered to provide visual feedback.
+Each icon link in the footer SHALL change colour when hovered to provide visual feedback.
 
 #### Scenario: visitor hovers over a social icon
 

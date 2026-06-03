@@ -97,7 +97,15 @@
       "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website add components/nav/Nav.tsx components/nav/NavScrollWrapper.tsx components/nav/__tests__/Nav.test.tsx components/nav/__tests__/NavScrollWrapper.test.tsx CONTEXT.md .claude/settings.json openspec/linear.yaml openspec/changes/nav-mobile-navigation/)",
       "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website log --oneline 8c5e05d..HEAD)",
       "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website diff 8c5e05d..289bd07 --stat)",
-      "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website add openspec/changes/nav-mobile-navigation/retrospective.md .claude/settings.json)"
+      "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website add openspec/changes/nav-mobile-navigation/retrospective.md .claude/settings.json)",
+      "Bash(node -e \"const l = require\\('lucide-react'\\); console.log\\(Object.keys\\(l\\).filter\\(k => /github|linkedin|mail/i.test\\(k\\)\\).join\\('\\\\n'\\)\\)\")",
+      "Bash(node -e \"const l = require\\('lucide-react'\\); const keys = Object.keys\\(l\\); console.log\\('Github-like:', keys.filter\\(k => /^[Gg]it/i.test\\(k\\)\\).join\\(', '\\)\\); console.log\\('Linked-like:', keys.filter\\(k => /linked/i.test\\(k\\)\\).join\\(', '\\)\\);\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3001/)",
+      "Bash(curl -s http://localhost:3001/)",
+      "Bash(/usr/bin/curl -s \"http://localhost:3001/blog\")",
+      "Bash(/usr/bin/curl -s \"http://localhost:3001/projects\")",
+      "Bash(/usr/bin/curl -s \"http://localhost:3001/contact\")",
+      "Bash(/usr/bin/curl -s \"http://localhost:3001/\")"
     ],
     "additionalDirectories": [
       "/Users/abhilash/Projects/personal/portfolio-website/app",

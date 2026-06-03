@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, DM_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import Nav from "@/components/nav/Nav";
+import Footer from "@/components/layout/Footer";
 import ThemeProvider from "@/components/providers/ThemeProvider";
 
 const dmSans = DM_Sans({
@@ -39,6 +40,7 @@ export default function RootLayout({
         <ThemeProvider>
           <Nav />
           <main className="pt-[60px]">{children}</main>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
