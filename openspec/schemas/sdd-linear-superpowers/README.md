@@ -1,38 +1,61 @@
-# sdd-linear-superpowers
+# sdd-linear-superpowers Schema
 
-**Version 5** — Lean-full spec-driven development with Superpowers skills and Linear integration.
+SDD + Linear + Superpowers OpenSpec schema for product/platform changes with meaningful behaviour and long-lived design decisions.
 
-## Requirements
+## Workflow
 
-| Requirement        | Notes                                                                                                     |
-| ------------------ | --------------------------------------------------------------------------------------------------------- |
-| Claude Code        | Subagent support required — `executing-plans` fallback not supported                                      |
-| Superpowers plugin | `writing-plans`, `subagent-driven-development`, `finishing-a-development-branch`                          |
-| Linear MCP         | Optional — all hooks best-effort; unavailability is non-blocking                                          |
-
-## Pipeline
-
-```text
-proposal → specs → design → tasks → plan → apply → verify → retrospective → archive
+```
+proposal → specs → design → tasks
 ```
 
-`apply` only implements the approved plan and syncs task state. Verification,
-retrospective, archive, Linear completion, and PR / merge handoff are standalone
-steps after implementation.
+Each stage gates the next:
 
-## Default Cuts
+| Stage | Captures | Output |
+|-------|----------|--------|
+| **proposal** | WHY — problem, capabilities, impact | `proposal.md` |
+| **specs** | WHAT — observable behaviour in Gherkin | `specs/<capability>/spec.md` |
+| **design** | HOW — architecture, decisions, trade-offs | `design.md` |
+| **tasks** | WORK — checkbox-trackable implementation steps | `tasks.md` |
 
-The full workflow is still available, but expensive steps are conditional:
+## When to Use
 
-| Area | Default |
-| ---- | ------- |
-| Grill | Only for ambiguity, contradictions, capability boundaries, hard decisions, or user request |
-| Design | `Design: N/A` for straightforward changes; full design only when risk/ambiguity warrants it |
-| Plan | Task-level steps by default; micro-steps only with risk reason |
-| Evidence | Embedded in `verify.md` for small changes; separate `implementation-evidence.md` for long/multi-task/subagent-heavy work |
-| Apply | Main-agent fast path for small safe changes; subagent-driven execution for risky or multi-task work |
-| Review | Batched only for consecutive mechanical tasks; per-task for risky/behavioral work |
-| Retrospective | One-line skip for clean small changes; full retro only when triggered |
-| Linear specs | Summary comment by default; full Project Document mirror only with `sync_full_specs: true` |
+Appropriate for:
+- Product or platform changes with meaningful behaviour and long-lived design decisions
+- Cross-module work
+- Architecture choices future changes should honor
 
-Full behavior, overrides, task states, archive gates, and Linear ownership boundary: `schema.yaml`.
+**Not** appropriate for:
+- Small tactical fixes
+- Docs-only changes
+- Dependency bumps
+- Behaviour-only work where a simpler schema suffices
+
+## Activation
+
+Set in `openspec/config.yaml`:
+
+```yaml
+schema: sdd-linear-superpowers
+```
+
+## Specs Format
+
+Specs use OpenSpec Markdown delta headers for archive merging:
+
+```markdown
+## ADDED Requirements
+
+### Requirement: <name>
+
+GIVEN ...
+WHEN ...
+THEN ...
+```
+
+Requirements use `### Requirement:`, scenarios use `#### Scenario:` — both required for OpenSpec validation.
+
+## Validation
+
+```bash
+openspec schema validate sdd-linear-superpowers
+```

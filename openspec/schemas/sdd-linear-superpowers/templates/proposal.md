@@ -1,30 +1,29 @@
----
-linear_story_id: <!-- e.g. ENG-123 -->
-linear_story_url: <!-- e.g. https://linear.app/your-team/issue/ENG-123 -->
----
-
 ## Why
 
-<!-- 1-2 sentences. Drawn from the bound Linear issue. What problem does this solve? Why now? -->
+<!-- Explain the motivation for this change. What problem does this solve? Why now? -->
 
 ## What Changes
 
-<!--
-Describe what will change. Be specific about new capabilities, modifications, or removals.
-Mark breaking changes with **BREAKING**.
-Link to the Linear issue for full business context — do not duplicate stakeholder detail here.
--->
+<!-- Describe what will change. Be specific about new capabilities, modifications, or removals.
+     Mark breaking changes with **BREAKING**. -->
 
 ## Capabilities
 
 ### New Capabilities
-<!-- Each becomes specs/<name>/spec.md. Use kebab-case (e.g., user-auth, data-export). -->
-- `<name>`: <!-- brief description -->
+
+<!-- Capabilities being introduced. Replace <name> with kebab-case identifier
+     (e.g., user-auth, data-export, api-rate-limiting).
+     Each creates specs/<name>/spec.md with OpenSpec delta headers and Gherkin-style scenarios. -->
+
+- `<name>`: <brief description of what this capability covers>
 
 ### Modified Capabilities
-<!-- Existing capabilities whose REQUIREMENTS are changing (not just implementation).
+
+<!-- Existing capabilities whose behaviour is changing (not just implementation).
+     Only list here if spec-level behaviour changes. Each needs a delta spec.md file.
      Use existing spec names from openspec/specs/. Leave empty if no requirement changes. -->
-- `<existing-name>`: <what requirement is changing>
+
+- `<existing-name>`: <what behaviour is changing>
 
 ## Impact
 

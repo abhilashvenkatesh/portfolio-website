@@ -1,54 +1,24 @@
-<!--
-For straightforward changes, replace this file with:
-
-Design: N/A — straightforward implementation; use existing patterns.
-
-Use full sections only when there is architecture, dependency, migration,
-security/performance, or cross-cutting ambiguity.
--->
-
 ## Context
 
-<!--
-Background, current state, constraints, stakeholders.
-Read proposal.md for motivation; this doc expands the "how".
--->
+<!-- Background, current state, constraints, stakeholders -->
 
 ## Goals / Non-Goals
 
-**Goals:**
-<!-- What this design aims to achieve -->
-
-**Non-Goals:**
-<!-- What is explicitly out of scope -->
+<!-- What this design achieves and explicitly excludes -->
 
 ## Decisions
 
-<!--
-Key technical choices with rationale. For each decision:
-
-### D1: <Decision Title>
-- **Choice**: <adopted approach>
-- **Rationale**: <why this over alternatives>
-- **Alternatives considered**: <rejected options + reason>
--->
+<!-- Key technical choices with rationale (why X over Y?). Include alternatives considered for each decision. -->
 
 ## Risks / Trade-offs
 
-<!--
-Known risks and trade-offs.
-Format: [Risk] <description> → Mitigation: <mitigation>
-        [Trade-off] <description> → Accepted because: <reason>
--->
+<!-- Known limitations, things that could go wrong. Format: [Risk] -> Mitigation -->
 
 ## Migration Plan
 
-<!--
-Deployment order, rollback strategy, acceptance criteria.
-If no deployment changes (pure code addition, no endpoint/DB changes),
-write "N/A — no deployment changes in this change."
--->
+<!-- Steps to deploy, rollback strategy (if applicable) -->
 
 ## Open Questions
 
-<!-- Outstanding decisions or unknowns to resolve -->
+<!-- Outstanding decisions or unknowns to resolve. Include any in-force ADRs that this
+     design suggests revisiting; the adr step will record the supersession. -->

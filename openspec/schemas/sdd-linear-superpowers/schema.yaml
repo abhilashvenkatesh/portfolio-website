@@ -1,307 +1,226 @@
 name: sdd-linear-superpowers
-version: 5
-description: >
-  Spec-driven workflow with Superpowers skills and Linear lifecycle.
-  Requires: Superpowers plugin (writing-plans, subagent-driven-development,
-  finishing-a-development-branch),
-  Claude Code with subagent support (no executing-plans fallback — loses TDD + code review).
-  Linear hooks are best-effort — unavailability is non-blocking; skip silently.
-  Linear owns the business "what"; the repo owns the technical "how".
-  Linear spec mirroring is summary-first; full document mirroring is opt-in.
-  Pipeline: proposal → specs → design → tasks → plan → apply → verify → retrospective → archive.
-  Version 5 cuts default ceremony: conditional grill/full design/full retro,
-  bounded plans, optional separate evidence, and archive gates.
+version: 1
+description: SDD + Linear + Superpowers OpenSpec workflow - proposal -> specs -> design -> tasks -> apply -> verify -> retrospective -> archive
 
 artifacts:
   - id: proposal
     generates: proposal.md
-    description: Initial proposal bound to a Linear story
+    description: Intent proposal establishing why this change is needed
     template: proposal.md
-    instruction: |
-      ## Linear Setup
-
-      Use Linear MCP tools when available. Skip silently if unavailable.
-
-      1. **Load or create `openspec/linear.yaml`**:
-         - If missing, run setup one question at a time (never auto-select):
-           a. `list_teams` → ask which team, wait.
-           b. `list_projects` for that team → ask which project, wait.
-           c. `list_issue_labels` → ask if label filter; offer "no filter" explicitly, wait.
-           d. Write `openspec/linear.yaml`.
-
-      2. **Bind a Linear story**:
-         - `list_issues` filtered to configured project/label, status Backlog.
-         - Present list; ask user which issue. Wait for selection.
-         - Read issue title, description, labels, comments for business context.
-         - Do NOT invent goals not present in the issue.
-
-      3. **Grill gate**:
-         Invoke **grill-with-docs** only when any trigger is present:
-         - ambiguous or overloaded domain terms
-         - contradiction between Linear issue, docs, or code
-         - new capability boundary or hard-to-reverse decision
-         - user explicitly asks to stress-test the work
-
-         If no trigger is present, write in proposal.md:
-         `Grill: skipped — no domain ambiguity or hard-to-reverse decision`.
-         If invoked, do NOT write proposal.md until grill reaches shared understanding.
-
-      ## Proposal Content
-
-      Read `documentation/REQUIREMENTS.md` — verify alignment, reference story IDs
-      (NAV-1, CHAT-3) in What Changes/Impact, identify satisfied acceptance criteria.
-
-      Write proposal.md per template. Keep 1-2 pages. "Why" drawn from the issue only.
-      Capabilities section is the contract with the specs phase — research
-      `openspec/specs/` before filling it in. Implementation details belong in design.md.
-
-      ## Linear Post-Write
-
-      When MCP available: sync business-facing sections (Why, What Changes, Impact)
-      to the issue description (no frontmatter, no technical detail). Transition to
-      Todo. Comment: "Proposal written. OpenSpec change `<change-name>` created."
     requires: []
+    instruction: |
+      PRECHECK: Invoke the `grill-with-docs` skill to stress-test the plan before writing.
+      PRECHECK: Invoke `openspec-linearized` to bind a Linear story and transition it to Todo.
+
+      Reference documents:
+      - `documentation/REQUIREMENTS.md` — acceptance criteria and story IDs
+
+      Create a proposal document establishing WHY this change is needed.
+
+      ## Sections
+
+      ### Why
+      1-2 sentences on the problem or opportunity. What problem does this solve? Why now?
+
+      ### What Changes
+      Bullet list of changes. Be specific about new capabilities, modifications, or removals.
+      Mark breaking changes with **BREAKING**.
+
+      ### Capabilities
+      CRITICAL SECTION — establishes the contract between proposal and specs.
+
+      **New Capabilities**: List capabilities being introduced. Each becomes `specs/<name>/spec.md`.
+      Use kebab-case names (e.g., `user-auth`, `data-export`).
+
+      **Modified Capabilities**: List existing capabilities whose behaviour is changing.
+      Only include spec-level behaviour changes, not just implementation changes.
+      Each needs a delta spec.md file. Research existing specs before filling.
+      Use existing spec names from `openspec/specs/`.
+
+      **Impact**: Affected code, APIs, dependencies, systems.
+
+      ## Guidelines
+      - Keep concise (1-2 pages). Focus on "why" not "how" — implementation details belong in design.md.
+      - Foundation for specs, design, and tasks phases.
 
   - id: specs
-    generates: "specs/**/*.md"
+    generates: specs/**/*.md
     description: Delta specifications per capability
     template: spec.md
-    instruction: >
-      Create one spec file per capability in the proposal's Capabilities section.
-      Use delta sections (ADDED / MODIFIED / REMOVED / RENAMED).
-
-      MODIFIED: copy the FULL existing requirement block from
-      openspec/specs/<capability>/spec.md and paste under ## MODIFIED with edits.
-      Partial content loses detail at archive.
-
-      Format rules (validated by OpenSpec):
-      - Requirements must contain SHALL or MUST
-      - Every requirement needs ≥1 scenario using exactly `####` (4 hashtags — 3 fails silently)
-      - Scenarios use WHEN/THEN format
     requires:
       - proposal
+    instruction: |
+      PRECHECK: Invoke the `gherkin-authoring` skill before writing spec files.
+
+      Create OpenSpec Markdown spec files defining WHAT the system should do.
+
+      ## File Placement
+      - One spec file per capability listed in proposal
+      - New capabilities: `specs/<capability>/spec.md` (exact kebab-case name from proposal)
+      - Modified capabilities: `specs/<capability>/spec.md` using existing spec folder from `openspec/specs/<capability>/`
+
+      ## Delta Operations
+      Use exact ## headers for OpenSpec archive merge:
+      - **## ADDED Requirements** — new behaviour capabilities
+      - **## MODIFIED Requirements** — changed behaviour; MUST include full updated requirement content, not partial diff
+      - **## REMOVED Requirements** — deprecated behaviours; MUST include **Reason** and **Migration**
+      - **## RENAMED Requirements** — name changes only; use FROM:/TO: format
+
+      ## OpenSpec Wrapper Requirements
+      - Each requirement MUST use `### Requirement: <name>`
+      - Each scenario MUST use `#### Scenario: <name>` (four-hash heading required for OpenSpec validation and archive)
+      - Every requirement MUST have at least one scenario
+
+      ## Gherkin-Style Content
+      - Treat each requirement as a feature or business rule
+      - Include `Feature:` or `Rule:` prose when clarifying behaviour
+      - Each scenario MUST describe behaviour with `GIVEN`, `WHEN`, `THEN` steps
+      - Use `AND` or `BUT` for follow-on steps
+      - Write observable outcomes in `THEN` steps; avoid implementation details (database tables, private methods, UI selectors) unless part of domain contract
+      - Do NOT create `.feature` files; `spec.md` is required for OpenSpec merge
+
+      ## MODIFIED Requirements Workflow
+      1. Locate existing requirement in `openspec/specs/<capability>/spec.md`
+      2. Copy ENTIRE requirement block (from `### Requirement:` through all scenarios)
+      3. Paste under `## MODIFIED Requirements` and edit to represent full desired behaviour after change
+      4. Ensure header text matches exactly (whitespace-insensitive)
+
+      **Pitfall**: Using MODIFIED with partial content loses detail at archive time;
+      use ADDED instead if adding new concerns without changing existing behaviour.
 
   - id: design
     generates: design.md
     description: Technical design document
     template: design.md
-    instruction: >
-      Before writing, read:
-      - `documentation/DESIGN.md` — design tokens, component specs, do/don't rules.
-        All decisions must conform.
-      - `documentation/ARCHITECTURE.md` — file structure, data layer, CI pipeline.
-        Decisions must align or explicitly supersede with rationale.
-
-      Write from scratch using proposal.md for motivation.
-
-      Use compact design by default:
-      - If there is no cross-cutting change, external dependency, security/perf
-        complexity, migration, or architectural ambiguity, write:
-        `Design: N/A — straightforward implementation; use existing patterns.`
-      - Otherwise write full design sections, capped at the decisions that
-        remove real ambiguity.
     requires:
       - proposal
+    instruction: |
+      PRECHECK: Invoke the `c4-diagrams` skill if the design involves architectural components or system boundaries.
+
+      Reference documents:
+      - `documentation/DESIGN.md` — design tokens, component specs, do/don't rules
+      - `documentation/ARCHITECTURE.md` — file structure, data schemas, rendering strategy
+
+      Create a design document explaining HOW to implement the change.
+
+      ## When to Include
+      Create design.md only if ANY of these apply:
+      - Cross-cutting change (multiple services/modules) or new architectural pattern
+      - New external dependency or significant data model changes
+      - Security, performance, or migration complexity
+      - Ambiguity benefiting from technical decisions before coding
+
+      ## Sections
+      - **Context**: Background, current state, constraints, stakeholders
+      - **Goals / Non-Goals**: What this design achieves and explicitly excludes
+      - **Decisions**: Key technical choices with rationale (why X over Y?). Include alternatives considered.
+      - **Risks / Trade-offs**: Known limitations, things that could go wrong. Format: [Risk] -> Mitigation
+      - **Migration Plan**: Steps to deploy, rollback strategy (if applicable)
+      - **Open Questions**: Outstanding decisions or unknowns to resolve.
+
+      ## Guidelines
+      - Focus on architecture and approach, not line-by-line implementation
+      - Reference proposal for motivation and specs for requirements
+      - Good design docs explain the "why" behind technical decisions
 
   - id: tasks
     generates: tasks.md
-    description: Implementation checklist
+    description: Implementation checklist ordered by dependency
     template: tasks.md
-    instruction: >
-      Break down implementation into grouped checkbox tasks. Order by dependency.
-      Reference specs for what, design for how.
-
-      Allowed task states:
-      - `- [ ] X.Y desc` pending
-      - `- [x] X.Y desc` complete
-      - `- [~] X.Y desc — deferred: <reason>; verify impact: <blocking|non-blocking>`
-
-      Use `[~]` only when the task is intentionally deferred, not forgotten.
-      Verify must explain every `[~]` row.
     requires:
       - specs
       - design
-
-  - id: plan
-    generates: plan.md
-    description: Bounded implementation plan using Superpowers writing-plans
-    template: plan.md
     instruction: |
-      PRECHECK: Confirm `superpowers:writing-plans` is in your available skills.
-      If missing, STOP — do not silently fall back.
+      Create a task list breaking down the implementation work.
 
-      Invoke **superpowers:writing-plans**. Write output to this change's `plan.md`
-      (NOT `docs/superpowers/plans/`).
+      **IMPORTANT**: Follow the template exactly; the apply phase parses checkbox format to track progress.
+      Tasks not using `- [ ]` won't be tracked.
 
-      Schema overrides for this invocation:
-      - Treat proposal.md, specs/, design.md, tasks.md as upstream context — do NOT restate them.
-      - Default to task-level execution steps.
-      - Expand to 2-5 min RED/GREEN/REFACTOR micro-steps only for: risky/ambiguous tasks,
-        new dependencies/test infra, tasks touching 3+ files, data/security/perf/migration.
-        Each expanded task must state its risk reason.
-      - Each task: compact context packet (change name, task ID, req/scenario names,
-        design decision IDs if relevant, expected files, acceptance checks, test commands,
-        commit point).
-      - Code snippets only when novel, risky, or not obvious from file + acceptance checks.
-      - For small changes, plan may say evidence is captured in verify.md.
-      - For multi-task/subagent/long-running changes, plan must mention that
-        apply will maintain implementation-evidence.md.
-
-      Post-write gate — revise plan.md immediately if any fail:
-      - No large chunks duplicated from proposal/specs/design
-      - No micro-step expansion without an explicit risk reason
-      - Simple styling/copy/component tasks stay compact
-      - Each task identifies files, req/scenario, test commands, commit point
-      - Full-file code blocks appear only for novel/risky code or new files
-    requires:
-      - tasks
+      ## Guidelines
+      - Group related tasks under ## numbered headings
+      - Each task MUST be a checkbox: `- [ ] X.Y Task description`
+      - Tasks should be small enough to complete in one session
+      - Order tasks by dependency (what must be done first?)
+      - If implementation changes behaviour specs, include a task to run
+        `openspec validate <change> --type change --strict` before archive
+      - Reference specs for what to build, design for how to build it
+      - Each task should be verifiable — you know when it's done
 
   - id: verify
     generates: verify.md
-    description: Post-implementation verification against specs, design, and tasks
+    description: Post-implementation verification report
     template: verify.md
-    instruction: |
-      PRECHECK — both must return > 0. If either is 0, STOP.
-
-      1. git log --oneline $(git merge-base HEAD origin/main 2>/dev/null || git merge-base HEAD origin/master 2>/dev/null)..HEAD | wc -l
-      2. grep -c '^- \[x\]' openspec/changes/<change-name>/tasks.md
-
-      Invoke **openspec-verify-change**. Produce verify.md per template.
-      Re-run until Overall Decision is PASS or PASS WITH WARNINGS.
-
-      Timing: verify runs AFTER apply completes.
-
-      Schema checks to include:
-      - Evidence table in verify.md maps tasks to commits/files/tests.
-        If implementation-evidence.md exists, summarize it; if absent, embed
-        the evidence table directly in verify.md.
-      - `[~]` deferred tasks have reason and verify impact.
-      - Design/task reconciliation: any design mitigation that was not executed
-        is either implemented, removed from design, or recorded as `[~]`.
-      - Plan/task sync: completed tasks have completed matching plan steps or a
-        short explanation.
-
-      Fallback if skill unavailable: run the checks listed in verify.md template manually.
     requires:
-      - plan
+      - tasks
+    instruction: |
+      TIMING: This artifact is produced AFTER apply completes — not during planning.
+      The `requires: [tasks]` edge exists for schema graph only.
+
+      PRECHECK — implementation evidence:
+      Before producing verify.md, run BOTH commands. If either returns 0,
+      STOP and tell the user that apply has not yet produced reviewable changes.
+
+      1. Commit evidence (must return > 0):
+         git log --oneline $(git merge-base HEAD origin/main 2>/dev/null)..HEAD | wc -l
+
+      2. Task progress (must return > 0):
+         grep -c '^\- \[x\]' openspec/changes/<change-name>/tasks.md
+
+      Only after BOTH return positive, invoke `openspec-verify-change` skill.
+
+      The verify step MUST perform these checks and record results in verify.md:
+
+      1. **Structural validation**: Run `openspec validate --all --json` and confirm all `"valid": true`.
+      2. **Task completion**: Confirm every checkbox in tasks.md is `- [x]`. Document any incomplete.
+      3. **Delta spec sync state**: For each `openspec/changes/<name>/specs/` dir, compare against `openspec/specs/<capability>/spec.md`.
+      4. **Design/specs coherence**: Spot-check design.md decisions align with specs requirements.
+      5. **Implementation signal**: Confirm all code changes committed (no unstaged files).
+
+      Verify MAY be re-run multiple times — each run overwrites verify.md with current state.
 
   - id: retrospective
     generates: retrospective.md
     description: Evidence-first retrospective of completed change
     template: retrospective.md
-    instruction: |
-      PRECHECK — both must pass. If either fails, STOP.
-
-      1. test -f openspec/changes/<change-name>/verify.md
-      2. ! grep -q '^- \[x\] ❌ FAIL' openspec/changes/<change-name>/verify.md
-
-      Timing: after apply + verify pass — not during planning.
-
-      Full retrospective triggers:
-      - verify has warnings or failures that were fixed
-      - skipped/deferred tasks or skipped skills
-      - plan deviations, reviewer disagreement, or implementation surprises
-      - new dependencies, migrations, security/perf/data concerns
-      - user explicitly asks for full retro
-
-      If no trigger is present, write a one-line retrospective:
-      `Skipped: clean small change, no workflow learnings. Evidence in verify.md.`
-
-      If triggered, write full retrospective per template.
-
-      Forward-pointer policy: if facts change after writing, do NOT rewrite — add:
-      `> **Update YYYY-MM-DD**: section X superseded by <link>`.
-      Rewriting removes the audit trail of what was known at write time.
     requires:
       - verify
-
-  - id: archive
-    generates: "archive/YYYY-MM-DD-<change-name>/"
-    description: Archive a verified change and complete external handoff
-    template: archive.md
     instruction: |
-      PRECHECK — all must pass. If any fails, STOP.
+      TIMING: Written AFTER apply completes and verify.md shows no blocking issues.
+      Write while context is hot — BEFORE opening any PR. Retro belongs in the same PR.
 
-      1. test -f openspec/changes/<change-name>/verify.md
-      2. test -f openspec/changes/<change-name>/retrospective.md
-      3. verify.md Overall Decision is PASS or PASS WITH WARNINGS
-      4. tasks.md has no `- [ ]`; `[~]` rows are allowed only if verify marks
-         them non-blocking or explicitly accepted
-      5. plan/task/evidence gaps from verify are resolved or marked warnings
+      PRECHECK — verify completion:
+      1. verify.md must exist: test -f openspec/changes/<change-name>/verify.md
+      2. verify.md must NOT be FAIL: ! grep -q '^- \[x\] ❌ FAIL' openspec/changes/<change-name>/verify.md
 
-      Run `openspec archive -y` (or `/opsx:archive`).
+      Process:
+      1. Gather evidence — run `git log --oneline <base>..HEAD` for commit range.
+         Read tasks.md for plan-vs-actual comparison.
+      2. Write all sections using the template (§0 Evidence + §1-§6 analysis).
+         Each claim cites a commit hash, file path, or measurable fact.
+      3. §4 Skill compliance — list every schema skill, mark ✓/✗. Any ✗ MUST explain
+         what was skipped, why this cycle (specific trigger), and how to prevent recurrence.
+      4. §6 Promote candidates — use `- [ ]` checklist with Why/How body so items
+         can transfer mechanically to memory without rewriting.
 
-      Linear post-archive (best effort, skip silently if MCP unavailable;
-      run ONLY after archive succeeds):
-      - Add a summary comment with archive path, changed capabilities, and
-        verify decision.
-      - Mirror full specs to Linear Project Documents only when
-        `openspec/linear.yaml` has `sync_full_specs: true`. If enabled,
-        `list_documents` then `save_document` per archived capability, title
-        `OpenSpec: <capability-name>`. Update existing docs — no duplicates.
-        Persist doc IDs in `openspec/linear.yaml` under `spec_documents`.
-      - `save_issue` → Done.
-      - Comment: "Implementation complete and archived." If full spec sync
-        ran, append "Specs mirrored to Linear Project Documents."
-
-      PR / merge handoff:
-      - Invoke **superpowers:finishing-a-development-branch** after archive.
-      - Branch diff MUST contain complete archived cycle.
-      - If retrospective or archive was skipped, STOP and complete first.
-    requires:
-      - retrospective
+      Trivial single-commit fixes: OK to skip — write one-liner reason in retrospective.md.
 
 apply:
   requires:
-    - plan
+    - tasks
   tracks: tasks.md
   instruction: |
-    0. **Pre-flight**:
-       Confirm `superpowers:subagent-driven-development` exists when the plan is
-       multi-task, risky, review-batched, or explicitly calls for subagents.
+    PRECHECK: Invoke `superpowers:subagent-driven-development` to dispatch independent tasks in parallel.
+    PRECHECK: Invoke `superpowers:test-driven-development` before writing any implementation code.
+    PRECHECK: Invoke `superpowers:requesting-code-review` when implementation is complete.
+    PRECHECK: Invoke `openspec-linearized` to transition the bound Linear story to In Progress.
 
-       Scan plan.md for CLI tools (npm, docker, gh, etc.). Surface missing tools as
-       WARNING (not STOP) — list once at apply start.
+    Read context files, work through pending tasks, mark complete as you go.
+    Pause if hitting blockers or needing clarification.
 
-       Before editing, inspect the current checkout status and avoid overwriting
-       unrelated user changes.
-
-    0b. **Linear** (best effort, skip silently if MCP unavailable):
-        Read `linear_story_id` from proposal.md frontmatter. `save_issue` → In Progress.
-        Comment: "Implementation started. Working through
-        `openspec/changes/<change-name>/tasks.md`."
-
-    1. **Execute**:
-       Small-change fast path — use the main agent when all are true:
-       - touches <=2 implementation files
-       - no new dependency, test infra, data/security/perf/migration change
-       - no ambiguous design or capability boundary
-       - no plan instruction requiring subagents
-
-       For all other changes, invoke **superpowers:subagent-driven-development**.
-       Schema overrides:
-       - Compact context packets per subagent (change name, task ID, req/scenario names,
-         design decision IDs if relevant, expected files, acceptance checks, commands,
-         current commit range).
-       - Read full artifacts once as controller context; escalate to full text only
-         when ambiguity requires it.
-       - Maintain separate `implementation-evidence.md` only for multi-task,
-         multi-commit, subagent-heavy, long-running, or review-batched changes.
-       - Sync tasks.md and plan.md checkboxes as work completes.
-       - Batch reviews only for consecutive mechanical tasks (styling, copy, simple
-         component edits) touching the same req/file area. Record batch reason in
-         implementation-evidence.md.
-       - Per-task review for: behavior changes, new deps/test infra,
-         data/security/perf/migration, tasks touching 3+ files, DONE_WITH_CONCERNS.
-
-       TDD and code-review activate transitively for subagent-driven work; for the
-       small-change fast path, perform equivalent RED/GREEN and review checks in
-       the main agent.
-
-    2. **Stop point**:
-       Apply is complete when implementation is done, required tests/checks pass,
-       and tasks.md / plan.md checkboxes are synced.
-
-       Do not verify, write retrospective, archive, update Linear to Done, or run
-       PR / merge handoff during apply. Those are handled by the standalone
-       verify, retrospective, and archive steps.
+    When all tasks complete:
+    1. Produce the `verify` artifact by invoking `openspec-verify-change`. Re-run until no blocking issues.
+    2. Produce the `retrospective` artifact while context is hot — BEFORE opening PR.
+    3. Run `openspec-archive-change` (or `/opsx:archive`) to sync delta specs into `openspec/specs/`
+       and move the change folder to `openspec/changes/archive/YYYY-MM-DD-<name>/`.
+    4. Invoke `openspec-linearized` to sync archived specs to Linear Project Documents and transition story to Done.
+    5. PR is the LAST step — branch diff must contain all artifacts + archived change.
