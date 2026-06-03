@@ -5,10 +5,12 @@ description: Intent-driven OpenSpec workflow - proposal -> specs -> design -> ta
 artifacts:
   - id: proposal
     generates: proposal.md
+    description: Intent proposal establishing why this change is needed
     template: proposal.md
     requires: []
-    instructions: |
+    instruction: |
       PRECHECK: Invoke the `grill-with-docs` skill to stress-test the plan before writing.
+      PRECHECK: Invoke `openspec-linearized` to bind a Linear story and transition it to Todo.
 
       Reference documents:
       - `documentation/REQUIREMENTS.md` — acceptance criteria and story IDs
@@ -43,10 +45,11 @@ artifacts:
 
   - id: specs
     generates: specs/**/*.md
+    description: Delta specifications per capability
     template: spec.md
     requires:
       - proposal
-    instructions: |
+    instruction: |
       PRECHECK: Invoke the `gherkin-authoring` skill before writing spec files.
 
       Create OpenSpec Markdown spec files defining WHAT the system should do.
@@ -87,10 +90,11 @@ artifacts:
 
   - id: design
     generates: design.md
+    description: Technical design document
     template: design.md
     requires:
       - proposal
-    instructions: |
+    instruction: |
       PRECHECK: Invoke the `c4-diagrams` skill if the design involves architectural components or system boundaries.
 
       Reference documents:
@@ -121,10 +125,12 @@ artifacts:
 
   - id: tasks
     generates: tasks.md
+    description: Implementation checklist ordered by dependency
     template: tasks.md
     requires:
       - specs
-    instructions: |
+      - design
+    instruction: |
       Create a task list breaking down the implementation work.
 
       **IMPORTANT**: Follow the template exactly; the apply phase parses checkbox format to track progress.
@@ -142,10 +148,11 @@ artifacts:
 
   - id: verify
     generates: verify.md
+    description: Post-implementation verification report
     template: verify.md
     requires:
       - tasks
-    instructions: |
+    instruction: |
       TIMING: This artifact is produced AFTER apply completes — not during planning.
       The `requires: [tasks]` edge exists for schema graph only.
 
@@ -173,10 +180,11 @@ artifacts:
 
   - id: retrospective
     generates: retrospective.md
+    description: Evidence-first retrospective of completed change
     template: retrospective.md
     requires:
       - verify
-    instructions: |
+    instruction: |
       TIMING: Written AFTER apply completes and verify.md shows no blocking issues.
       Write while context is hot — BEFORE opening any PR. Retro belongs in the same PR.
 
@@ -204,6 +212,7 @@ apply:
     PRECHECK: Invoke `superpowers:subagent-driven-development` to dispatch independent tasks in parallel.
     PRECHECK: Invoke `superpowers:test-driven-development` before writing any implementation code.
     PRECHECK: Invoke `superpowers:requesting-code-review` when implementation is complete.
+    PRECHECK: Invoke `openspec-linearized` to transition the bound Linear story to In Progress.
 
     Read context files, work through pending tasks, mark complete as you go.
     Pause if hitting blockers or needing clarification.
@@ -213,4 +222,5 @@ apply:
     2. Produce the `retrospective` artifact while context is hot — BEFORE opening PR.
     3. Run `openspec-archive-change` (or `/opsx:archive`) to sync delta specs into `openspec/specs/`
        and move the change folder to `openspec/changes/archive/YYYY-MM-DD-<name>/`.
-    4. PR is the LAST step — branch diff must contain all artifacts + archived change.
+    4. Invoke `openspec-linearized` to sync archived specs to Linear Project Documents and transition story to Done.
+    5. PR is the LAST step — branch diff must contain all artifacts + archived change.

@@ -58,6 +58,7 @@ Commit chain:
 | `superpowers:test-driven-development` (apply) | ✓ / ✗ |
 | `superpowers:requesting-code-review` (apply) | ✓ / ✗ |
 | `openspec-verify-change` (verify) | ✓ / ✗ |
+| `openspec-linearized` (proposal, apply, archive) | ✓ / ✗ / N/A |
 
 ### Deliberately Skipped Skills
 
