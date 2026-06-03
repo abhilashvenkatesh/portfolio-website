@@ -1,0 +1,21 @@
+# Linear project binding for openspec-linearized skill.
+# Run opsx:propose (with openspec-linearized active) to populate this file interactively.
+
+team:
+  id: ""
+  key: ""
+  name: ""
+project:
+  id: ""
+  name: ""
+issue_label_filter:
+  name: ""  # leave empty for no filter
+archive_documents:
+  enabled: true
+  title_prefix: "OpenSpec:"
+  documents: {}
+  # Populated automatically at archive time:
+  # "<capability-name>":
+  #   id: "<linear-document-id>"
+  #   url: "<linear-document-url>"
+  #   title: "OpenSpec: <capability-name>"

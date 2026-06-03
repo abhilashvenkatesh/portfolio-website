@@ -74,7 +74,17 @@
       "Bash(openspec validate *)",
       "Skill(claude-memory:extract-learnings)",
       "Skill(claude-memory:extract-learnings:*)",
-      "Bash(date -u +%Y-%m-%dT%H:%M:%SZ > /Users/abhilash/.claude/projects/-Users-abhilash-Projects-personal-portfolio-website/memory/.last-consolidation)"
+      "Bash(date -u +%Y-%m-%dT%H:%M:%SZ > /Users/abhilash/.claude/projects/-Users-abhilash-Projects-personal-portfolio-website/memory/.last-consolidation)",
+      "Bash(openspec sync-specs *)",
+      "Bash(openspec sync *)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(curl -s \"https://raw.githubusercontent.com/intent-driven-dev/intent-driven-template/main/openspec/schemas/intent-driven/schema.yaml\")",
+      "Bash(curl -s \"https://api.github.com/repos/intent-driven-dev/intent-driven-template/contents/\")",
+      "WebFetch(domain:intent-driven.dev)",
+      "Bash(curl -s https://raw.githubusercontent.com/intent-driven-dev/openspec-schemas/main/.codex/skills/openspec-linearized/SKILL.md)",
+      "Bash(curl -s https://raw.githubusercontent.com/intent-driven-dev/openspec-schemas/main/.codex/skills/openspec-linearized/agents/openai.yaml)",
+      "Bash(curl -s https://raw.githubusercontent.com/intent-driven-dev/openspec-schemas/main/.codex/skills/openspec-linearized/references/lifecycle.md)",
+      "Edit(/.claude/skills/openspec-linearized/**)"
     ],
     "additionalDirectories": [
       "/Users/abhilash/Projects/personal/portfolio-website/app",
