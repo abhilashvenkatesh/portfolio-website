@@ -14,6 +14,8 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Design prototype files — not app code
     "documentation/**",
+    // Claude workspace files — not app code
+    ".claude/**",
   ]),
 ]);
 
