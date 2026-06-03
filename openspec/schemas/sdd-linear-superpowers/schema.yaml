@@ -98,6 +98,7 @@ artifacts:
       - proposal
     instruction: |
       PRECHECK: Invoke the `c4-architecture` skill if the design involves architectural components or system boundaries.
+      PRECHECK: Invoke the `vercel-react-best-practices` skill if the design touches React components, Next.js routing, rendering, hydration, data loading, or performance.
 
       Reference documents:
       - `documentation/DESIGN.md` — design tokens, component specs, do/don't rules
@@ -163,6 +164,7 @@ artifacts:
          grep -c '^\- \[x\]' openspec/changes/<change-name>/tasks.md
 
       Only after BOTH return positive, invoke `openspec-verify-change` skill.
+      PRECHECK: Invoke `verification-before-completion` before claiming the implementation is complete or ready to archive.
 
       The verify step MUST perform these checks and record results in verify.md:
 
@@ -210,9 +212,11 @@ apply:
   tracks: tasks.md
   instruction: |
     PRECHECK: Invoke `openspec-git-discipline` to confirm proposal is committed to main before starting implementation.
-    PRECHECK: Invoke `superpowers:subagent-driven-development` to dispatch independent tasks in parallel.
-    PRECHECK: Invoke `superpowers:test-driven-development` before writing any implementation code.
-    PRECHECK: Invoke `superpowers:requesting-code-review` when implementation is complete.
+    PRECHECK: Invoke `subagent-driven-development` to dispatch independent tasks in parallel.
+    PRECHECK: Invoke `test-driven-development` before writing any implementation code.
+    PRECHECK: Invoke `vercel-react-best-practices` before editing React components, Next.js routes, rendering behaviour, hydration logic, data loading, or performance-sensitive code.
+    PRECHECK: Invoke `systematic-debugging` before fixing any bug, failing test, or unexpected behaviour discovered during apply.
+    PRECHECK: Invoke `requesting-code-review` when implementation is complete.
     PRECHECK: Invoke `openspec-linearized` to transition the bound Linear story to In Progress.
 
     Read context files, work through pending tasks, mark complete as you go.
@@ -223,8 +227,9 @@ apply:
     2. Produce the `retrospective` artifact while context is hot — BEFORE opening PR.
     3. Check `grep -c '^\- \[ \]' openspec/changes/<name>/retrospective.md` — if > 0, act on all
        §6 promote candidates before archiving (persist to memory, CLAUDE.md, schema, or skill).
-    4. Invoke `openspec-git-discipline` to confirm implementation is merged to main before archiving.
+    4. Invoke `finishing-a-development-branch` to decide the merge, archive, PR, and cleanup path.
+    5. Invoke `openspec-git-discipline` to confirm implementation is merged to main before archiving.
        Run `openspec-archive-change` (or `/opsx:archive`) to sync delta specs into `openspec/specs/`
        and move the change folder to `openspec/changes/archive/YYYY-MM-DD-<name>/`.
-    5. Invoke `openspec-linearized` to sync archived specs to Linear Project Documents and transition story to Done.
-    6. PR is the LAST step — branch diff must contain all artifacts + archived change.
+    6. Invoke `openspec-linearized` to sync archived specs to Linear Project Documents and transition story to Done.
+    7. PR is the LAST step — branch diff must contain all artifacts + archived change.

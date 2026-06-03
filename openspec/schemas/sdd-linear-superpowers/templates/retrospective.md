@@ -53,11 +53,15 @@ Commit chain:
 |---|---|
 | `grill-with-docs` (proposal) | ✓ / ✗ |
 | `gherkin-authoring` (specs) | ✓ / ✗ |
-| `c4-diagrams` (design, if arch) | ✓ / ✗ / N/A |
-| `superpowers:subagent-driven-development` (apply) | ✓ / ✗ |
-| `superpowers:test-driven-development` (apply) | ✓ / ✗ |
-| `superpowers:requesting-code-review` (apply) | ✓ / ✗ |
+| `c4-architecture` (design, if arch) | ✓ / ✗ / N/A |
+| `vercel-react-best-practices` (design/apply, if React/Next.js) | ✓ / ✗ / N/A |
+| `subagent-driven-development` (apply) | ✓ / ✗ |
+| `test-driven-development` (apply) | ✓ / ✗ |
+| `systematic-debugging` (apply, if bugs/failures) | ✓ / ✗ / N/A |
+| `requesting-code-review` (apply) | ✓ / ✗ |
 | `openspec-verify-change` (verify) | ✓ / ✗ |
+| `verification-before-completion` (verify) | ✓ / ✗ |
+| `finishing-a-development-branch` (finish) | ✓ / ✗ |
 | `openspec-linearized` (proposal, apply, archive) | ✓ / ✗ / N/A |
 
 ### Deliberately Skipped Skills
