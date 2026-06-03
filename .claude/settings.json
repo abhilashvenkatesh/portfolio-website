@@ -104,7 +104,20 @@
       "Bash(/usr/bin/curl -s \"http://localhost:3001/projects\")",
       "Bash(/usr/bin/curl -s \"http://localhost:3001/contact\")",
       "Bash(/usr/bin/curl -s \"http://localhost:3001/\")",
-      "mcp__linear-server__save_document"
+      "mcp__linear-server__save_document",
+      "Bash(git push *)",
+      "Bash(curl -s http://localhost:3456/)",
+      "mcp__linear-server__list_comments",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('TEMPLATE:\\\\n', d.get\\('template',''\\), '\\\\n\\\\nINSTRUCTION:\\\\n', d.get\\('instruction',''\\), '\\\\n\\\\nOUTPUT_PATH:\\\\n', d.get\\('outputPath',''\\)\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\('outputPath',''\\)\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d['artifacts'], indent=2\\)\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\('instruction',''\\)\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('TEMPLATE:\\\\n', d.get\\('template',''\\), '\\\\n\\\\nINSTRUCTION:\\\\n', d.get\\('instruction',''\\)\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('complete:', d['isComplete']\\); [print\\(a['id'], a['status']\\) for a in d['artifacts']]\")",
+      "Bash(python3 -c ' *)",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(which chromium-cli *)",
+      "Read(//Applications/**)"
     ],
     "additionalDirectories": [
       "/Users/abhilash/Projects/personal/portfolio-website/app",

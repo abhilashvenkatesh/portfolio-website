@@ -2,6 +2,10 @@ import { render, screen } from "@testing-library/react";
 import { HeroSection } from "../HeroSection";
 import type { HomeContent } from "@/lib/types";
 
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({ push: jest.fn() }),
+}));
+
 const content: HomeContent = {
   roleBadge: "Lead Application Developer · Melbourne",
   headline: "Hi, I'm Abhilash.",
@@ -26,4 +30,11 @@ test("renders stats bar with all three stat labels", () => {
   expect(screen.getByText("years experience")).toBeInTheDocument();
   expect(screen.getByText("microservices shipped")).toBeInTheDocument();
   expect(screen.getByText("countries worked in")).toBeInTheDocument();
+});
+
+test("renders ChatLauncher with placeholder in hero", () => {
+  render(<HeroSection content={content} />);
+  expect(
+    screen.getByPlaceholderText("Ask me anything about Abhilash…")
+  ).toBeInTheDocument();
 });

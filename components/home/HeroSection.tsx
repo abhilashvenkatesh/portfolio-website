@@ -1,6 +1,7 @@
 import type { HomeContent } from "@/lib/types";
 import { AccentTag } from "@/components/ui/AccentTag";
 import { StatsBar } from "@/components/home/StatsBar";
+import { ChatLauncher } from "@/components/home/ChatLauncher";
 
 export function HeroSection({ content }: { content: HomeContent }) {
   return (
@@ -24,6 +25,9 @@ export function HeroSection({ content }: { content: HomeContent }) {
         </p>
 
         <StatsBar stats={content.stats} />
+        <div className="mt-10">
+          <ChatLauncher />
+        </div>
       </div>
     </section>
   );
