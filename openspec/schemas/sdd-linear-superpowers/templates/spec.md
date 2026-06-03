@@ -23,3 +23,9 @@ THEN <!-- observable outcome -->
 **Reason**: <!-- Why this requirement is being removed -->
 
 **Migration**: <!-- How to handle systems or users depending on this behaviour -->
+
+## RENAMED Requirements
+
+<!-- Name changes only — no behaviour change. -->
+
+- FROM: `old-requirement-name` TO: `new-requirement-name`

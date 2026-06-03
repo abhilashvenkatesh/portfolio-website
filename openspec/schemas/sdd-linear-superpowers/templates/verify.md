@@ -60,7 +60,7 @@ Spot-check that `design.md` decisions align with requirements in `specs/`:
 
 ## 5. Implementation Signal
 
-- [ ] No unstaged files in worktree
+- [ ] No unstaged files (`git status --short` is clean)
 - [ ] All relevant commits pushed
 
 **Commit range**: `<from-sha>..<to-sha>`

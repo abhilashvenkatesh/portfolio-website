@@ -7,6 +7,12 @@
       "skillPath": "skills/brainstorming/SKILL.md",
       "computedHash": "8df9b47092524833138b58682d03f2e153a242e550d1693657afdbee0cc9cdb0"
     },
+    "c4-architecture": {
+      "source": "softaworks/agent-toolkit",
+      "sourceType": "github",
+      "skillPath": "skills/c4-architecture/SKILL.md",
+      "computedHash": "f35f57420c35f2e8413e1e22934ca3950cae8286499f6fbe978cff604c35cfcd"
+    },
     "cavecrew": {
       "source": "juliusbrussee/caveman",
       "sourceType": "github",
@@ -78,6 +84,12 @@
       "sourceType": "github",
       "skillPath": "skills/engineering/grill-with-docs/SKILL.md",
       "computedHash": "eb0e91e84277283dc2b23ed544399e53afd6b5287e5b6929f25fe8aa608e164b"
+    },
+    "openspec-git-discipline": {
+      "source": "intent-driven-dev/intent-driven-template",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/openspec-git-discipline/SKILL.md",
+      "computedHash": "9824d7a5897b41bd4610b96e28ba39dd3f3e8b38d773ceed4ed26f97e3a58997"
     },
     "receiving-code-review": {
       "source": "obra/superpowers",

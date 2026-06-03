@@ -14,6 +14,15 @@
 
 <!-- Known limitations, things that could go wrong. Format: [Risk] -> Mitigation -->
 
+## Close Triggers
+
+<!-- Interactive UI only (menus, drawers, dialogs). List every trigger that dismisses the component:
+     - Nav link click
+     - Outside click / backdrop tap
+     - Esc key
+     - Route change (usePathname effect)
+     Remove this section for non-interactive changes. -->
+
 ## Migration Plan
 
 <!-- Steps to deploy, rollback strategy (if applicable) -->

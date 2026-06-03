@@ -5,7 +5,7 @@ SDD + Linear + Superpowers OpenSpec schema for product/platform changes with mea
 ## Workflow
 
 ```
-proposal → specs → design → tasks
+proposal → specs → design → tasks → apply → verify → retrospective → archive
 ```
 
 Each stage gates the next:
@@ -16,6 +16,10 @@ Each stage gates the next:
 | **specs** | WHAT — observable behaviour in Gherkin | `specs/<capability>/spec.md` |
 | **design** | HOW — architecture, decisions, trade-offs | `design.md` |
 | **tasks** | WORK — checkbox-trackable implementation steps | `tasks.md` |
+| **apply** | Implementation — code written, tasks checked off | code commits |
+| **verify** | Post-impl check — tasks done, specs synced, CI clean | `verify.md` |
+| **retrospective** | Evidence-first retro — wins, misses, promotes | `retrospective.md` |
+| **archive** | Merge delta specs → canonical; move change to archive | `openspec/changes/archive/` |
 
 ## When to Use
 
@@ -53,6 +57,17 @@ THEN ...
 ```
 
 Requirements use `### Requirement:`, scenarios use `#### Scenario:` — both required for OpenSpec validation.
+
+## Git Discipline
+
+`openspec-git-discipline` is invoked at four gates:
+
+| Gate | When | Rule |
+| --- | --- | --- |
+| Before propose | `proposal` PRECHECK | Must be on `main` |
+| Before specs | `specs` PRECHECK | Proposal artifacts committed before continuing |
+| Before apply | `apply` PRECHECK | Proposal change committed to `main` |
+| Before archive | `apply` step 4 | Implementation merged to `main`; archive runs from `main` |
 
 ## Validation
 
