@@ -4,6 +4,7 @@ import { AccentTag } from "@/components/ui/AccentTag";
 import { StatsBar } from "@/components/home/StatsBar";
 import { ChatLauncher } from "@/components/home/ChatLauncher";
 import { SuggestionChips } from "@/components/home/SuggestionChips";
+import { BrowseHints } from "@/components/home/BrowseHints";
 
 export function HeroSection({ content }: { content: HomeContent }) {
   const { home: homeChips } = getSuggestionChips();
@@ -65,6 +66,7 @@ export function HeroSection({ content }: { content: HomeContent }) {
           <div className="mt-4">
             <SuggestionChips chips={homeChips} />
           </div>
+          <BrowseHints />
         </div>
       </div>
     </section>

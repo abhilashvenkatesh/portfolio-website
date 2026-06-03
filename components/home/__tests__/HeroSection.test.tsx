@@ -73,3 +73,11 @@ test("renders hero radial glow layer", () => {
   render(<HeroSection content={content} />);
   expect(document.querySelector('[data-testid="hero-glow"]')).toBeInTheDocument();
 });
+
+test("renders browse hints below suggestion chips", () => {
+  render(<HeroSection content={content} />);
+  expect(screen.getByText("or browse")).toBeInTheDocument();
+  expect(screen.getByRole("link", { name: "projects" })).toBeInTheDocument();
+  expect(screen.getByRole("link", { name: "experience" })).toBeInTheDocument();
+  expect(screen.getByRole("link", { name: "contact" })).toBeInTheDocument();
+});
