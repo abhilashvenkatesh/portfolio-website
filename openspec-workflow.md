@@ -213,6 +213,7 @@ Required sections:
 ```markdown
 ## Context
 ## Goals / Non-Goals
+## Project Facts Preflight
 ## Decisions
 ## Risks / Trade-offs
 ## Close Triggers
@@ -225,9 +226,27 @@ Rules:
 - Focus on architecture and approach, not line-by-line implementation.
 - Reference `documentation/DESIGN.md` for design tokens and component rules.
 - Reference `documentation/ARCHITECTURE.md` for structure, data schemas, and rendering strategy.
+- Complete `Project Facts Preflight` before writing implementation-specific class names,
+  icon choices, dependency assumptions, or npm script tasks.
 - Include alternatives considered in the decisions section.
 - Format risks as `[Risk] -> Mitigation`.
 - Include `Close Triggers` only for interactive UI such as menus, drawers, and dialogs.
+
+Project facts preflight must record:
+
+- **Dependencies**: check `package.json` before saying a package is installed or adding package-specific APIs.
+- **Icons / exports**: verify named exports in the installed package before naming icons in design/tasks.
+- **Design tokens / classes**: check `styles/globals.css`, `documentation/DESIGN.md`, and nearby components before writing Tailwind classes or CSS variable names.
+- **Existing components / helpers**: check the relevant `components/`, `lib/`, and `content/` files before assuming something exists or needs to be created.
+- **Scripts / commands**: check `package.json` before including validation/build scripts in `tasks.md`.
+
+Useful commands:
+
+```bash
+node -e "const p=require('./package.json'); console.log(p.scripts); console.log(p.dependencies); console.log(p.devDependencies)"
+rg -n "color-|bg-|surface|tertiary|accent|muted|heading" styles/globals.css documentation/DESIGN.md components
+node -e "const icons=require('lucide-react'); console.log(Boolean(icons.Github), Boolean(icons.Linkedin))"
+```
 
 For interactive UI, close triggers should explicitly cover:
 
@@ -272,6 +291,8 @@ Rules:
 - Tasks should be small enough to complete in one session.
 - Order tasks by dependency.
 - Each task should be objectively verifiable.
+- Tasks must not reference npm scripts, package APIs, icon exports, CSS variables, or
+  Tailwind token classes unless they were checked in design `Project Facts Preflight`.
 - Include a validation task when behavior specs change:
 
 ```text
@@ -308,6 +329,9 @@ Rules:
 - Use systematic debugging for failing tests, bugs, or unexpected behavior.
 - Request code review when implementation is complete.
 - Move the bound Linear story to In Progress.
+- Commit implementation before `/opsx:verify`. This is a hard apply-exit gate:
+  after tasks are checked and local quality gates pass, `git status --short`
+  must be clean and implementation commits must exist.
 
 Recommended local verification for this repo:
 
@@ -327,12 +351,13 @@ When apply completes, the schema requires:
 
 Do not go directly from apply to archive. The required next command after apply is `/opsx:verify`.
 
-1. Produce `verify.md`.
-2. Re-run verification until there are no blocking issues.
-3. Produce `retrospective.md` while context is still fresh.
-4. Act on retrospective promote candidates before archive.
-5. Decide merge, archive, PR, and cleanup path.
-6. Confirm implementation is merged to `main` before archiving.
+1. Commit all implementation and artifact updates; `git status --short` must be clean.
+2. Produce `verify.md`.
+3. Re-run verification until there are no blocking issues.
+4. Produce `retrospective.md` while context is still fresh.
+5. Act on retrospective promote candidates before archive.
+6. Decide merge, archive, PR, and cleanup path.
+7. Confirm implementation is merged to `main` before archiving.
 
 ## 8. Phase 6: Verify
 
@@ -354,6 +379,9 @@ grep -c '^\- \[x\]' openspec/changes/<change-name>/tasks.md
 ```
 
 If either command returns `0`, apply has not produced reviewable changes yet.
+If `git status --short` is not clean, apply has not exited cleanly yet. Commit
+the implementation before producing `verify.md`; uncommitted implementation is a
+blocking failure, not a warning.
 
 Required verification checks:
 
@@ -409,6 +437,7 @@ Spot-check that `design.md` decisions align with requirements in `specs/`.
 7. Implementation signal:
 
 Confirm no unstaged files remain and all relevant implementation commits exist.
+Uncommitted implementation blocks verify.
 
 Overall decision should be one of:
 
@@ -591,6 +620,7 @@ npm test
 - Creating `.feature` files instead of OpenSpec Markdown specs.
 - Using task bullets that are not checkbox lines.
 - Producing `verify.md` before implementation has completed.
+- Running `/opsx:verify` before committing implementation.
 - Archiving before all tasks are checked.
 - Moving Linear to Done before OpenSpec archive succeeds.
 - Leaving retrospective promote candidates unchecked before archive.
@@ -613,6 +643,7 @@ Use this checklist when running the custom schema:
 - [ ] Mark tasks complete as work lands
 - [ ] Run project checks
 - [ ] Run OpenSpec validation
+- [ ] Commit implementation and verify `git status --short` is clean
 - [ ] Produce `verify.md`
 - [ ] Produce `retrospective.md`
 - [ ] Act on promote candidates

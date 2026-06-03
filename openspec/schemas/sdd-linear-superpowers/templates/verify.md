@@ -98,9 +98,13 @@ Spot-check that `design.md` decisions align with requirements in `specs/`:
 ## 7. Implementation Signal
 
 - [ ] No unstaged files (`git status --short` is clean)
-- [ ] All relevant commits pushed
+- [ ] Implementation was committed before verify
+- [ ] All relevant commits exist in the commit range
 
 **Commit range**: `<from-sha>..<to-sha>`
+
+**Blocking rule**: uncommitted implementation is a FAIL, not a warning. Return to apply,
+commit the implementation and artifact updates, then re-run verify.
 
 ---
 
