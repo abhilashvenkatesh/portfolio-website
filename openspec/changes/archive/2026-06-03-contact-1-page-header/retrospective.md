@@ -19,16 +19,16 @@ phase_metrics:
 
 archive_metrics:
   phase: archive
-  started_at: null
-  completed_at: null
-  elapsed_seconds: null
+  started_at: "2026-06-03T18:55:00Z"
+  completed_at: "2026-06-03T19:05:00Z"
+  elapsed_seconds: 600
   token_usage:
     source: unavailable
     input_tokens: null
     output_tokens: null
     total_tokens: null
-  confidence: low
-  notes: "Fill immediately before or after archive; if archive moves this file first, update it in the archived path."
+  confidence: high
+  notes: "Canonical spec created at openspec/specs/contact-page-header/spec.md. Linear doc created (9aa8f1f9). Metrics comment posted to POR-136. POR-136 transitioned to Done. Commit a5348db."
 ```
 
 ---
