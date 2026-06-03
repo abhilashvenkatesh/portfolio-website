@@ -16,4 +16,4 @@ context: |
   - Run Linear Project Document sync only after OpenSpec archive succeeds and merges delta specs into canonical spec files.
   - Mirror documents use deterministic titles: "OpenSpec: <capability-name>".
   - Because these documents are mirrors, archive-time agents may replace the full document body with canonical OpenSpec spec content.
-  - Do not transition the bound Linear story to Done before OpenSpec archive succeeds.
+  - Do not transition the bound Linear story to Done before verify passes, retrospective metrics are complete, OpenSpec archive succeeds, and the metrics summary is posted to Linear.

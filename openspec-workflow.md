@@ -324,6 +324,8 @@ viewport states. Static or presentational components are not exempt.
 
 When apply completes, the schema requires:
 
+Do not go directly from apply to archive. The required next command after apply is `/opsx:verify`.
+
 1. Produce `verify.md`.
 2. Re-run verification until there are no blocking issues.
 3. Produce `retrospective.md` while context is still fresh.
@@ -400,10 +402,12 @@ Confirm no unstaged files remain and all relevant implementation commits exist.
 Overall decision should be one of:
 
 ```markdown
-- [ ] PASS - ready for retrospective and archive
-- [ ] PASS WITH WARNINGS - can proceed, note: <detail>
+- [ ] PASS - ready for retrospective; archive remains blocked until retrospective is complete
+- [ ] PASS WITH WARNINGS - can proceed to retrospective, note: <detail>
 - [ ] FAIL - return to failing artifact, fix, re-run verify
 ```
+
+The required next command after a passing verify is `/opsx:retrospective`, not `/opsx:archive`.
 
 Schema prechecks:
 
@@ -422,21 +426,30 @@ retrospective.md
 
 Write the retrospective after verify passes and before opening the PR.
 
-Required evidence:
+Required metrics and evidence:
 
 - Commit range.
 - Diff size.
+- Files changed.
 - Tasks done.
+- Requirement and scenario counts.
+- Method: SDD, human, or vibe.
+- Linear story binding.
+- Timing source and cycle-time breakdown.
+- Token usage source and input/output/total token counts when available.
 - Active hours estimate.
 - New dependencies.
 - Bugs or regressions.
 - OpenSpec validation result.
+- Unit test, build, and verify decision results.
+- Rework signals.
+- Overall SDD score and confidence notes.
 - Commit chain.
 
 Required analysis sections:
 
 ```markdown
-## 0. Evidence
+## 0. Metrics / Evidence
 ## 1. Wins
 ## 2. Misses
 ## 3. Plan deviations
@@ -466,7 +479,7 @@ Archive should happen only after:
 - Implementation is complete.
 - Tasks are all checked.
 - Verification passes.
-- Retrospective is complete or intentionally skipped with a reason.
+- Retrospective is complete with §0 Metrics / Evidence, or intentionally skipped with a reason for trivial single-commit fixes.
 - Promote candidates have been handled.
 - Implementation is merged to `main`.
 
@@ -480,13 +493,14 @@ openspec/changes/archive/YYYY-MM-DD-<change-name>/
 ```
 
 - Linear Project Documents are synced from canonical OpenSpec specs if archive document sync is enabled.
-- The bound Linear story can move to Done only after OpenSpec archive succeeds.
+- The bound Linear story can move to Done only after OpenSpec archive succeeds and the retrospective §0 Metrics / Evidence summary has been posted to the Linear story.
 
 Archive-time Linear mirror rules from `openspec/config.yaml`:
 
 - Linear Project Documents are disposable mirrors.
 - Document titles use `OpenSpec: <capability-name>`.
 - Full document bodies may be replaced with canonical OpenSpec spec content.
+- Linear issue/card comments may receive the retrospective §0 Metrics / Evidence summary for SDD measurement reporting.
 - Generic non-document Linear project resources are out of scope.
 
 ## 11. Schema Artifact Dependency Graph

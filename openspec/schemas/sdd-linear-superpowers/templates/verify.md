@@ -106,8 +106,8 @@ Spot-check that `design.md` decisions align with requirements in `specs/`:
 
 ## Overall Decision
 
-- [ ] ✅ PASS — ready for retrospective and archive
-- [ ] ⚠️ PASS WITH WARNINGS — can proceed, note: `<detail>`
+- [ ] ✅ PASS — ready for retrospective; archive remains blocked until retrospective is complete
+- [ ] ⚠️ PASS WITH WARNINGS — can proceed to retrospective, note: `<detail>`
 - [ ] ❌ FAIL — return to failing artifact, fix, re-run verify
 
-**Next step**: <describe next action>
+**Next step**: Run `/opsx:retrospective`. Do not run `/opsx:archive` until retrospective.md exists, §0 Metrics / Evidence is complete, and promote candidates are handled.

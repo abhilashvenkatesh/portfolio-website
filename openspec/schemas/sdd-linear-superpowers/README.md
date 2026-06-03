@@ -67,7 +67,7 @@ Requirements use `### Requirement:`, scenarios use `#### Scenario:` — both req
 | Before propose | `proposal` PRECHECK | Must be on `main` |
 | Before specs | `specs` PRECHECK | Proposal artifacts committed before continuing |
 | Before apply | `apply` PRECHECK | Proposal change committed to `main` |
-| Before archive | `apply` step 4 | Implementation merged to `main`; archive runs from `main` |
+| Before archive | after `verify` + `retrospective` | Implementation merged to `main`; retrospective metrics complete; archive runs from `main` |
 
 ## Validation
 

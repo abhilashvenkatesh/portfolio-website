@@ -5,15 +5,60 @@
 
 ---
 
-## 0. Evidence
+## 0. Metrics / Evidence
 
+### Delivery
+
+- **Method**: SDD / human / vibe
+- **Backfilled**: yes / no
+- **Linear story**: `<id or none>` (`<url or none>`)
 - **Commit range**: `<base-sha>..<head-sha>` (<n> commits)
 - **Diff size**: <+X / -Y lines across N files>
-- **Tasks done**: <x>/<y>
-- **Active hours**: <estimate>
+- **Files changed**: <n>
+- **Tasks done**: <x>/<y> (<percent>%)
+- **Requirements**: <n>
+- **Scenarios**: <n>
 - **New external dependencies**: <list or "none">
 - **Bugs post-merge**: <count or "none">
+
+### Timing
+
+- **Timing source**: explicit / git-estimated / unavailable
+- **Total cycle time**: <duration or unknown>
+- **Planning time**: <duration or unknown>
+- **Implementation time**: <duration or unknown>
+- **Verification/archive time**: <duration or unknown>
+- **Active hours**: <estimate or unknown>
+- **Timing confidence**: high / medium / low
+
+### Token Usage
+
+- **Token source**: api / manual / estimated / unavailable
+- **Input tokens**: <n or unknown>
+- **Output tokens**: <n or unknown>
+- **Total tokens**: <n or unknown>
+
+### Quality Gates
+
 - **OpenSpec validate at archive**: <pass / fail / not-run>
+- **Unit tests**: <pass / fail / not-run>
+- **Build**: <pass / fail / not-run>
+- **Verify decision**: pass / warnings / fail
+
+### Rework Signals
+
+- **OpenSpec validation failures before pass**: <n or unknown>
+- **Test/build failures before pass**: <n or unknown>
+- **Verify reruns**: <n or unknown>
+- **Correction cycles**: <n or unknown>
+
+### Score
+
+- **Spec/task completion score**: <0-100>
+- **Quality gate score**: <0-100>
+- **Rework score**: <0-100>
+- **Overall SDD score**: <0-100>
+- **Confidence notes**: <what is exact vs estimated/unavailable>
 
 Commit chain:
 

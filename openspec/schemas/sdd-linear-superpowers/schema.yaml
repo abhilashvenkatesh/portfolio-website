@@ -13,6 +13,15 @@ artifacts:
       PRECHECK: Invoke the `grill-with-docs` skill to stress-test the plan before writing.
       PRECHECK: Invoke `openspec-linearized` to bind a Linear story and transition it to Todo.
 
+      Proposal frontmatter MAY include Linear binding and SDD experiment metadata:
+      - `linear_story_id`
+      - `linear_story_url`
+      - `sdd_experiment.method` (`sdd`, `human`, or `vibe`)
+      - `sdd_experiment.comparator`
+      - `sdd_experiment.started_at`
+      - `sdd_experiment.accepted_at`
+      - `sdd_experiment.token_usage_source` (`api`, `manual`, `estimated`, or `unavailable`)
+
       Reference documents:
       - `documentation/REQUIREMENTS.md` — acceptance criteria and story IDs
 
@@ -183,7 +192,7 @@ artifacts:
 
   - id: retrospective
     generates: retrospective.md
-    description: Evidence-first retrospective of completed change
+    description: Evidence-first retrospective with SDD success metrics for completed change
     template: retrospective.md
     requires:
       - verify
@@ -198,11 +207,14 @@ artifacts:
       Process:
       1. Gather evidence — run `git log --oneline <base>..HEAD` for commit range.
          Read tasks.md for plan-vs-actual comparison.
-      2. Write all sections using the template (§0 Evidence + §1-§6 analysis).
+      2. Gather metrics from proposal.md, tasks.md, specs/**/spec.md, verify.md, and git.
+         Capture timing and token usage when available. If a metric is unavailable or estimated,
+         label its source and confidence explicitly.
+      3. Write all sections using the template (§0 Metrics / Evidence + §1-§6 analysis).
          Each claim cites a commit hash, file path, or measurable fact.
-      3. §4 Skill compliance — list every schema skill, mark ✓/✗. Any ✗ MUST explain
+      4. §4 Skill compliance — list every schema skill, mark ✓/✗. Any ✗ MUST explain
          what was skipped, why this cycle (specific trigger), and how to prevent recurrence.
-      4. §6 Promote candidates — use `- [ ]` checklist with Why/How body so items
+      5. §6 Promote candidates — use `- [ ]` checklist with Why/How body so items
          can transfer mechanically to memory without rewriting.
 
       Trivial single-commit fixes: OK to skip — write one-liner reason in retrospective.md.
@@ -234,13 +246,20 @@ apply:
     - Run `npm test` as part of quality gates. Do not skip tests because a component is static or presentational.
 
     When all tasks complete:
+    NEXT COMMAND AFTER APPLY: `/opsx:verify`. Do not suggest `/opsx:archive` directly after apply.
+
     1. Produce the `verify` artifact by invoking `openspec-verify-change`. Re-run until no blocking issues.
-    2. Produce the `retrospective` artifact while context is hot — BEFORE opening PR.
+       NEXT COMMAND AFTER VERIFY: `/opsx:retrospective`. Do not suggest `/opsx:archive` until retrospective.md exists.
+    2. Produce the `retrospective` artifact while context is hot — BEFORE opening PR and BEFORE archive.
+       The retrospective must include §0 Metrics / Evidence with delivery, timing, token usage,
+       quality gate, rework, and score data.
     3. Check `grep -c '^\- \[ \]' openspec/changes/<name>/retrospective.md` — if > 0, act on all
        §6 promote candidates before archiving (persist to memory, CLAUDE.md, schema, or skill).
     4. Invoke `finishing-a-development-branch` to decide the merge, archive, PR, and cleanup path.
     5. Invoke `openspec-git-discipline` to confirm implementation is merged to main before archiving.
        Run `openspec-archive-change` (or `/opsx:archive`) to sync delta specs into `openspec/specs/`
        and move the change folder to `openspec/changes/archive/YYYY-MM-DD-<name>/`.
-    6. Invoke `openspec-linearized` to sync archived specs to Linear Project Documents and transition story to Done.
+    6. Invoke `openspec-linearized` to sync archived specs to Linear Project Documents, post the
+       retrospective §0 Metrics / Evidence summary to the bound Linear story, and transition story to Done.
+       Do not transition Linear to Done until the metrics summary has been posted.
     7. PR is the LAST step — branch diff must contain all artifacts + archived change.

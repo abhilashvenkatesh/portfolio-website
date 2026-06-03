@@ -1,3 +1,14 @@
+---
+linear_story_id: "<optional Linear issue id>"
+linear_story_url: "<optional Linear issue URL>"
+sdd_experiment:
+  method: "sdd"
+  comparator: "<human / vibe-coding / none>"
+  started_at: "<YYYY-MM-DDTHH:mm:ssZ or null>"
+  accepted_at: null
+  token_usage_source: "api / manual / estimated / unavailable"
+---
+
 ## Why
 
 <!-- Explain the motivation for this change. What problem does this solve? Why now? -->
