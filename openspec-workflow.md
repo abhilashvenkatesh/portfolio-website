@@ -318,6 +318,10 @@ npm test
 openspec validate <change-name> --type change --strict
 ```
 
+Unit tests are mandatory for every change. For React/UI work, include DOM/render assertions
+for the required user-visible content or state, plus DOM/visual verification across relevant
+viewport states. Static or presentational components are not exempt.
+
 When apply completes, the schema requires:
 
 1. Produce `verify.md`.
@@ -362,17 +366,34 @@ Confirm every item returns `"valid": true`.
 
 Confirm every checkbox in `tasks.md` is `- [x]`.
 
-3. Delta spec sync state:
+3. Unit test evidence:
+
+Confirm unit tests were added or updated for the changed behaviour. Run:
+
+```bash
+npm test
+```
+
+Missing unit tests are a blocking failure.
+
+4. DOM/visual evidence:
+
+For UI changes, confirm DOM/render assertions cover required user-visible content or state.
+Also perform visual verification across relevant viewport states and record the evidence.
+
+Missing DOM/visual verification for UI changes is a blocking failure.
+
+5. Delta spec sync state:
 
 Compare each `openspec/changes/<change-name>/specs/<capability>/spec.md` with the canonical spec under `openspec/specs/<capability>/spec.md`.
 
 Before archive, new capabilities may be marked N/A because the canonical spec does not exist yet.
 
-4. Design/specs coherence:
+6. Design/specs coherence:
 
 Spot-check that `design.md` decisions align with requirements in `specs/`.
 
-5. Implementation signal:
+7. Implementation signal:
 
 Confirm no unstaged files remain and all relevant implementation commits exist.
 
@@ -575,4 +596,3 @@ Use this checklist when running the custom schema:
 - [ ] Sync canonical specs to Linear Project Documents
 - [ ] Move Linear story to Done
 ```
-

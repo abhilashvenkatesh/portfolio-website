@@ -138,6 +138,9 @@ artifacts:
       - Each task MUST be a checkbox: `- [ ] X.Y Task description`
       - Tasks should be small enough to complete in one session
       - Order tasks by dependency (what must be done first?)
+      - Every change MUST include unit tests. For React/UI changes, include at least one render/DOM test that asserts the required user-visible content or state.
+      - Every UI change MUST include a DOM/visual verification task across relevant viewport states. Use automated browser/screenshot evidence where possible; otherwise document the manual check and captured evidence.
+      - Include `npm test` in quality gates. Unit tests may not be skipped for "static" or "presentational" components.
       - If implementation changes behaviour specs, include a task to run
         `openspec validate <change> --type change --strict` before archive
       - Reference specs for what to build, design for how to build it
@@ -170,9 +173,11 @@ artifacts:
 
       1. **Structural validation**: Run `openspec validate --all --json` and confirm all `"valid": true`.
       2. **Task completion**: Confirm every checkbox in tasks.md is `- [x]`. Document any incomplete.
-      3. **Delta spec sync state**: For each `openspec/changes/<name>/specs/` dir, compare against `openspec/specs/<capability>/spec.md`.
-      4. **Design/specs coherence**: Spot-check design.md decisions align with specs requirements.
-      5. **Implementation signal**: Confirm all code changes committed (no unstaged files).
+      3. **Unit test evidence**: Confirm unit tests were added or updated for the changed behaviour, run `npm test`, and record the result. Missing unit tests are a blocking failure.
+      4. **DOM/visual evidence**: For UI changes, confirm DOM/render assertions and visual verification were performed across relevant viewport states. Missing DOM/visual verification is a blocking failure.
+      5. **Delta spec sync state**: For each `openspec/changes/<name>/specs/` dir, compare against `openspec/specs/<capability>/spec.md`.
+      6. **Design/specs coherence**: Spot-check design.md decisions align with specs requirements.
+      7. **Implementation signal**: Confirm all code changes committed (no unstaged files).
 
       Verify MAY be re-run multiple times — each run overwrites verify.md with current state.
 
@@ -221,6 +226,12 @@ apply:
 
     Read context files, work through pending tasks, mark complete as you go.
     Pause if hitting blockers or needing clarification.
+
+    Mandatory verification discipline:
+    - Add or update unit tests for every change before marking implementation complete.
+    - For React/UI changes, add DOM/render assertions for user-visible content or state.
+    - For UI changes, perform DOM/visual verification across relevant viewport states and record evidence in verify.md.
+    - Run `npm test` as part of quality gates. Do not skip tests because a component is static or presentational.
 
     When all tasks complete:
     1. Produce the `verify` artifact by invoking `openspec-verify-change`. Re-run until no blocking issues.
