@@ -103,7 +103,8 @@
       "Bash(/usr/bin/curl -s \"http://localhost:3001/blog\")",
       "Bash(/usr/bin/curl -s \"http://localhost:3001/projects\")",
       "Bash(/usr/bin/curl -s \"http://localhost:3001/contact\")",
-      "Bash(/usr/bin/curl -s \"http://localhost:3001/\")"
+      "Bash(/usr/bin/curl -s \"http://localhost:3001/\")",
+      "mcp__linear-server__save_document"
     ],
     "additionalDirectories": [
       "/Users/abhilash/Projects/personal/portfolio-website/app",

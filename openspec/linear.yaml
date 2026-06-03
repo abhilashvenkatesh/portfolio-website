@@ -18,6 +18,10 @@ archive_documents:
       id: "ebd7382e-584d-445f-a1dd-b404def6acf2"
       url: "https://linear.app/abhilash-projects/document/openspec-footer-social-links-aa480d4ebe80"
       title: "OpenSpec: footer-social-links"
+    hero-headline:
+      id: "711f3e63-0223-4d57-a8ab-4f16d287d9d2"
+      url: "https://linear.app/abhilash-projects/document/openspec-hero-headline-83ad865bd9de"
+      title: "OpenSpec: hero-headline"
   # Populated automatically at archive time:
   # "<capability-name>":
   #   id: "<linear-document-id>"
