@@ -84,7 +84,17 @@
       "Bash(curl -s https://raw.githubusercontent.com/intent-driven-dev/openspec-schemas/main/.codex/skills/openspec-linearized/SKILL.md)",
       "Bash(curl -s https://raw.githubusercontent.com/intent-driven-dev/openspec-schemas/main/.codex/skills/openspec-linearized/agents/openai.yaml)",
       "Bash(curl -s https://raw.githubusercontent.com/intent-driven-dev/openspec-schemas/main/.codex/skills/openspec-linearized/references/lifecycle.md)",
-      "Edit(/.claude/skills/openspec-linearized/**)"
+      "Edit(/.claude/skills/openspec-linearized/**)",
+      "mcp__linear-server__list_teams",
+      "mcp__linear-server__list_issue_statuses",
+      "Skill(gherkin-authoring)",
+      "Skill(gherkin-authoring:*)",
+      "Bash(git stash *)",
+      "Bash(npm uninstall *)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d.get\\('outputPath','verify.md'\\)\\); print\\('---'\\); print\\(d.get\\('template',''\\)[:500]\\)\")",
+      "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website diff HEAD --stat)",
+      "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website log --oneline -3)",
+      "Bash(git -C /Users/abhilash/Projects/personal/portfolio-website add components/nav/Nav.tsx components/nav/NavScrollWrapper.tsx components/nav/__tests__/Nav.test.tsx components/nav/__tests__/NavScrollWrapper.test.tsx CONTEXT.md .claude/settings.json openspec/linear.yaml openspec/changes/nav-mobile-navigation/)"
     ],
     "additionalDirectories": [
       "/Users/abhilash/Projects/personal/portfolio-website/app",

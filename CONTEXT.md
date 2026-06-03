@@ -7,4 +7,8 @@ A mailto anchor rendered in the persistent nav header as an **action**, distinct
 One of the six page-navigation anchors in `<nav>`: Projects, About, Experience, Blog, Chat, Contact. Not to be confused with the hire-me CTA.
 
 ## button-secondary
+
 Design token for an outlined/ghost action button: transparent background, tertiary text colour, sm border-radius. Hover state: accent-dim background, tertiary text, 0.2s transition (`button-secondary-hover`).
+
+## mobile menu
+A full-width dropdown panel that appears below the nav header on small screens (below `sm` breakpoint / 640 px). Triggered by the hamburger button. Contains all six nav links, the hire-me CTA, and the theme toggle. On mobile the persistent nav header collapses to logo + hamburger only — all other controls move into this panel.

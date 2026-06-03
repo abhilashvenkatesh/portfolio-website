@@ -71,17 +71,19 @@ describe("Nav hire-me CTA", () => {
 
   it("renders Hire me anchor", async () => {
     await renderNav();
-    const cta = screen.getByRole("link", { name: "Hire me" });
-    expect(cta).toBeInTheDocument();
+    const ctas = screen.getAllByRole("link", { name: "Hire me" });
+    expect(ctas.length).toBeGreaterThan(0);
   });
 
   it("Hire me anchor has correct mailto href with subject", async () => {
     await renderNav();
-    const cta = screen.getByRole("link", { name: "Hire me" });
-    expect(cta).toHaveAttribute(
-      "href",
-      "mailto:test@example.com?subject=Hire%20me"
-    );
+    const ctas = screen.getAllByRole("link", { name: "Hire me" });
+    for (const cta of ctas) {
+      expect(cta).toHaveAttribute(
+        "href",
+        "mailto:test@example.com?subject=Hire%20me"
+      );
+    }
   });
 
   it("Hire me anchor is not inside the nav element", async () => {
@@ -100,16 +102,56 @@ describe("Nav theme toggle", () => {
 
   it("renders theme toggle button in the header", async () => {
     await renderNav();
-    expect(
-      screen.getByRole("button", { name: "Switch to dark mode" })
-    ).toBeInTheDocument();
+    const toggles = screen.getAllByRole("button", { name: "Switch to dark mode" });
+    expect(toggles.length).toBeGreaterThan(0);
   });
 
   it("theme toggle is not inside the nav element", async () => {
     await renderNav();
     const nav = screen.getByRole("navigation");
-    expect(nav).not.toContainElement(
-      screen.getByRole("button", { name: "Switch to dark mode" })
-    );
+    const toggles = screen.getAllByRole("button", { name: "Switch to dark mode" });
+    for (const toggle of toggles) {
+      expect(nav).not.toContainElement(toggle);
+    }
+  });
+});
+
+describe("Nav mobile menu", () => {
+  beforeEach(() => {
+    mockUsePathname.mockReturnValue("/");
+    localStorage.clear();
+    document.documentElement.removeAttribute("data-theme");
+  });
+
+  it("mobile menu panel contains all six nav links", async () => {
+    await renderNav();
+    const panel = document.getElementById("mobile-menu");
+    expect(panel).not.toBeNull();
+    const links = ["Projects", "About", "Experience", "Blog", "Chat", "Contact"];
+    for (const label of links) {
+      expect(panel).toHaveTextContent(label);
+    }
+  });
+
+  it("mobile menu panel contains hire-me CTA", async () => {
+    await renderNav();
+    const panel = document.getElementById("mobile-menu");
+    expect(panel).not.toBeNull();
+    expect(panel).toHaveTextContent("Hire me");
+  });
+
+  it("mobile menu panel contains theme toggle", async () => {
+    await renderNav();
+    const panel = document.getElementById("mobile-menu");
+    expect(panel).not.toBeNull();
+    const toggles = panel!.querySelectorAll("button[aria-label*='mode']");
+    expect(toggles.length).toBeGreaterThan(0);
+  });
+
+  it("desktop nav element has hidden sm:flex class (hidden on mobile)", async () => {
+    await renderNav();
+    const nav = screen.getByRole("navigation");
+    expect(nav.className).toContain("hidden");
+    expect(nav.className).toContain("sm:flex");
   });
 });

@@ -17,8 +17,26 @@ export default async function Nav() {
   const { email } = getContact();
   const mailtoHref = `mailto:${email}?subject=Hire%20me`;
 
+  const mobileMenuContent = (
+    <div className="flex flex-col pb-4 gap-1">
+      {LINKS.map(({ href, label }) => (
+        <NavLink key={href} href={href} label={label} />
+      ))}
+      <div className="h-px bg-surface-alt my-2" />
+      <a
+        href={mailtoHref}
+        className="text-sm font-medium text-tertiary rounded-sm px-3 py-3 transition-colors duration-200 hover:bg-accent-dim no-underline"
+      >
+        Hire me
+      </a>
+      <div className="px-3 py-2">
+        <ThemeToggle />
+      </div>
+    </div>
+  );
+
   return (
-    <NavScrollWrapper>
+    <NavScrollWrapper mobileMenuContent={mobileMenuContent}>
       <Link
         href="/"
         className="font-mono text-sm text-tertiary tracking-wider no-underline"
@@ -30,13 +48,15 @@ export default async function Nav() {
           <NavLink key={href} href={href} label={label} />
         ))}
       </nav>
-      <ThemeToggle />
-      <a
-        href={mailtoHref}
-        className="text-sm font-medium text-tertiary rounded-sm px-4 py-1.75 transition-colors duration-200 hover:bg-accent-dim no-underline"
-      >
-        Hire me
-      </a>
+      <div className="hidden sm:flex items-center gap-2">
+        <ThemeToggle />
+        <a
+          href={mailtoHref}
+          className="text-sm font-medium text-tertiary rounded-sm px-4 py-1.75 transition-colors duration-200 hover:bg-accent-dim no-underline"
+        >
+          Hire me
+        </a>
+      </div>
     </NavScrollWrapper>
   );
 }

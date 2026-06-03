@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, act } from "@testing-library/react";
+import { render, screen, act, fireEvent } from "@testing-library/react";
 import NavScrollWrapper from "../NavScrollWrapper";
 
 describe("NavScrollWrapper", () => {
@@ -46,5 +46,76 @@ describe("NavScrollWrapper", () => {
       window.dispatchEvent(new Event("scroll"));
     });
     expect(header.className).not.toContain("backdrop-blur-md");
+  });
+});
+
+describe("NavScrollWrapper mobile menu", () => {
+  const mobileContent = <a href="/projects">Projects</a>;
+
+  it("renders a hamburger button with block sm:hidden class", () => {
+    render(<NavScrollWrapper mobileMenuContent={mobileContent}><span>logo</span></NavScrollWrapper>);
+    const btn = screen.getByRole("button", { name: /menu/i });
+    expect(btn).toBeInTheDocument();
+    expect(btn.className).toContain("sm:hidden");
+  });
+
+  it("mobile menu panel is hidden by default (max-h-0)", () => {
+    render(<NavScrollWrapper mobileMenuContent={mobileContent}><span>logo</span></NavScrollWrapper>);
+    const panel = document.getElementById("mobile-menu");
+    expect(panel).not.toBeNull();
+    expect(panel!.className).toContain("max-h-0");
+    expect(panel!.className).not.toContain("max-h-screen");
+  });
+
+  it("clicking hamburger shows the mobile menu panel (max-h-screen)", () => {
+    render(<NavScrollWrapper mobileMenuContent={mobileContent}><span>logo</span></NavScrollWrapper>);
+    const btn = screen.getByRole("button", { name: /menu/i });
+    act(() => { fireEvent.click(btn); });
+    const panel = document.getElementById("mobile-menu");
+    expect(panel!.className).toContain("max-h-screen");
+    expect(panel!.className).not.toContain("max-h-0");
+  });
+
+  it("clicking hamburger again hides the panel", () => {
+    render(<NavScrollWrapper mobileMenuContent={mobileContent}><span>logo</span></NavScrollWrapper>);
+    const btn = screen.getByRole("button", { name: /menu/i });
+    act(() => { fireEvent.click(btn); });
+    act(() => { fireEvent.click(btn); });
+    const panel = document.getElementById("mobile-menu");
+    expect(panel!.className).toContain("max-h-0");
+  });
+
+  it("clicking an anchor inside the panel closes the menu", () => {
+    render(<NavScrollWrapper mobileMenuContent={mobileContent}><span>logo</span></NavScrollWrapper>);
+    const btn = screen.getByRole("button", { name: /menu/i });
+    act(() => { fireEvent.click(btn); });
+    const link = screen.getByRole("link", { name: "Projects" });
+    act(() => { fireEvent.click(link); });
+    const panel = document.getElementById("mobile-menu");
+    expect(panel!.className).toContain("max-h-0");
+  });
+
+  it("clicking the backdrop closes the menu", () => {
+    render(<NavScrollWrapper mobileMenuContent={mobileContent}><span>logo</span></NavScrollWrapper>);
+    const btn = screen.getByRole("button", { name: /menu/i });
+    act(() => { fireEvent.click(btn); });
+    const backdrop = document.getElementById("mobile-backdrop");
+    expect(backdrop).not.toBeNull();
+    act(() => { fireEvent.click(backdrop!); });
+    const panel = document.getElementById("mobile-menu");
+    expect(panel!.className).toContain("max-h-0");
+  });
+
+  it("hamburger has aria-expanded=false by default", () => {
+    render(<NavScrollWrapper mobileMenuContent={mobileContent}><span>logo</span></NavScrollWrapper>);
+    const btn = screen.getByRole("button", { name: /menu/i });
+    expect(btn).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("hamburger has aria-expanded=true when menu is open", () => {
+    render(<NavScrollWrapper mobileMenuContent={mobileContent}><span>logo</span></NavScrollWrapper>);
+    const btn = screen.getByRole("button", { name: /menu/i });
+    act(() => { fireEvent.click(btn); });
+    expect(btn).toHaveAttribute("aria-expanded", "true");
   });
 });

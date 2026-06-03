@@ -2,12 +2,12 @@
 # Run opsx:propose (with openspec-linearized active) to populate this file interactively.
 
 team:
-  id: ""
-  key: ""
-  name: ""
+  id: "c56a0922-1b4b-49db-b7f2-6a47de040f51"
+  key: "POR"
+  name: "Portfolio"
 project:
-  id: ""
-  name: ""
+  id: "214b5acd-71e3-4873-acab-9d9db0a95eb6"
+  name: "Portfolio Website"
 issue_label_filter:
   name: ""  # leave empty for no filter
 archive_documents:
