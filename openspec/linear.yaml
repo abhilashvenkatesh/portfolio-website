@@ -13,7 +13,11 @@ issue_label_filter:
 archive_documents:
   enabled: true
   title_prefix: "OpenSpec:"
-  documents: {}
+  documents:
+    footer-social-links:
+      id: "ebd7382e-584d-445f-a1dd-b404def6acf2"
+      url: "https://linear.app/abhilash-projects/document/openspec-footer-social-links-aa480d4ebe80"
+      title: "OpenSpec: footer-social-links"
   # Populated automatically at archive time:
   # "<capability-name>":
   #   id: "<linear-document-id>"
