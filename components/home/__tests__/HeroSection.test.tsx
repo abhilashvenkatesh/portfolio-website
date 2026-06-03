@@ -6,6 +6,18 @@ jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: jest.fn() }),
 }));
 
+jest.mock("@/lib/content", () => ({
+  getSuggestionChips: () => ({
+    home: [
+      "What are Abhilash's top skills?",
+      "Tell me about his role at Rapido",
+      "Which projects has he led?",
+      "How can I get in touch?",
+    ],
+    chat: [],
+  }),
+}));
+
 const content: HomeContent = {
   roleBadge: "Lead Application Developer · Melbourne",
   headline: "Hi, I'm Abhilash.",
@@ -36,5 +48,12 @@ test("renders ChatLauncher with placeholder in hero", () => {
   render(<HeroSection content={content} />);
   expect(
     screen.getByPlaceholderText("Ask me anything about Abhilash…")
+  ).toBeInTheDocument();
+});
+
+test("renders suggestion chips below chat launcher", () => {
+  render(<HeroSection content={content} />);
+  expect(
+    screen.getByRole("button", { name: "What are Abhilash's top skills?" })
   ).toBeInTheDocument();
 });

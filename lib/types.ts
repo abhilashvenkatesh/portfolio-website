@@ -14,6 +14,11 @@ export interface HomeContent {
   stats: HomeStat[];
 }
 
+export interface SuggestionChips {
+  home: string[];
+  chat: string[];
+}
+
 export interface Contact {
   email: string;
   linkedin: string;
