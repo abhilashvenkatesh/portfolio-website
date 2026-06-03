@@ -315,6 +315,7 @@ Recommended local verification for this repo:
 npm run typecheck
 npm run lint
 npm test
+npm run verify:web
 openspec validate <change-name> --type change --strict
 ```
 
@@ -382,6 +383,16 @@ Missing unit tests are a blocking failure.
 
 For UI changes, confirm DOM/render assertions cover required user-visible content or state.
 Also perform visual verification across relevant viewport states and record the evidence.
+Use the repeatable local verifier unless the change needs a custom interaction script:
+
+```bash
+npm run verify:web
+```
+
+By default this starts Next.js on `127.0.0.1:3100`, captures desktop/mobile screenshots in
+light and dark themes, and writes evidence to `.visual-evidence/<timestamp>/`.
+Use `npm run verify:web -- --paths=/,/projects --port=3101` to capture multiple routes
+or avoid a local port collision.
 
 Missing DOM/visual verification for UI changes is a blocking failure.
 
