@@ -55,3 +55,16 @@ GIVEN a visitor views the home-page chat launcher
 WHEN the visitor hovers the send button
 THEN the button SHALL reduce to 85% opacity
 AND the button SHALL return to full opacity when the pointer leaves
+
+---
+
+### Requirement: suggestion-chips-appear-in-hero
+
+The home-page hero section SHALL include suggestion chips below the chat launcher input, forming a complete chat entry point for visitors.
+
+#### Scenario: Chips visible below launcher input
+
+GIVEN a visitor navigates to the home page
+WHEN the hero section renders
+THEN the suggestion chips SHALL appear directly below the chat launcher input field
+AND the chips SHALL be visible without any user interaction
