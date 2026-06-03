@@ -9,6 +9,38 @@ export function HeroSection({ content }: { content: HomeContent }) {
   const { home: homeChips } = getSuggestionChips();
   return (
     <section className="min-h-screen flex flex-col justify-center items-center text-center px-[clamp(20px,5vw,64px)] pt-[120px] pb-[80px] relative overflow-hidden">
+      <div
+        data-testid="hero-grid"
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: "none",
+          backgroundImage:
+            "linear-gradient(var(--color-surface-alt) 1px, transparent 1px), linear-gradient(90deg, var(--color-surface-alt) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+          maskImage:
+            "radial-gradient(ellipse 80% 60% at 50% 30%, black 30%, transparent 100%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 80% 60% at 50% 30%, black 30%, transparent 100%)",
+        }}
+      />
+      <div
+        data-testid="hero-glow"
+        style={{
+          position: "absolute",
+          top: "20%",
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "500px",
+          height: "400px",
+          background: "oklch(0.58 0.18 38 / 0.08)",
+          borderRadius: "50%",
+          filter: "blur(80px)",
+          zIndex: 0,
+          pointerEvents: "none",
+        }}
+      />
       <div className="relative z-10 max-w-[760px] w-full mx-auto">
         <div className="mb-6">
           <AccentTag label={content.roleBadge} />

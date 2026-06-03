@@ -57,3 +57,19 @@ test("renders suggestion chips below chat launcher", () => {
     screen.getByRole("button", { name: "What are Abhilash's top skills?" })
   ).toBeInTheDocument();
 });
+
+test("hero section has overflow-hidden to clip decorative background layers", () => {
+  const { container } = render(<HeroSection content={content} />);
+  const section = container.querySelector("section");
+  expect(section?.className).toContain("overflow-hidden");
+});
+
+test("renders hero grid background layer", () => {
+  render(<HeroSection content={content} />);
+  expect(document.querySelector('[data-testid="hero-grid"]')).toBeInTheDocument();
+});
+
+test("renders hero radial glow layer", () => {
+  render(<HeroSection content={content} />);
+  expect(document.querySelector('[data-testid="hero-glow"]')).toBeInTheDocument();
+});
