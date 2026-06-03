@@ -63,7 +63,7 @@ THEN the description text SHALL come from a JSON field, not a hardcoded string
 
 ### Requirement: hero-content-json-source
 
-All hero identity copy (role badge, headline, subheading, description) SHALL be loaded from `content/home.json` at build time via a typed loader in `lib/content.ts`. No content SHALL be hardcoded in any component.
+All hero identity copy (role badge, headline, subheading, description, and stats) SHALL be loaded from `content/home.json` at build time via a typed loader in `lib/content.ts`. No content SHALL be hardcoded in any component.
 
 #### Scenario: Content loads without runtime file access
 

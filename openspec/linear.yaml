@@ -22,6 +22,10 @@ archive_documents:
       id: "711f3e63-0223-4d57-a8ab-4f16d287d9d2"
       url: "https://linear.app/abhilash-projects/document/openspec-hero-headline-83ad865bd9de"
       title: "OpenSpec: hero-headline"
+    stats-bar:
+      id: "58891269-b4bc-416d-8eb6-e99b532c4014"
+      url: "https://linear.app/abhilash-projects/document/openspec-stats-bar-3c2acefb0ae6"
+      title: "OpenSpec: stats-bar"
   # Populated automatically at archive time:
   # "<capability-name>":
   #   id: "<linear-document-id>"

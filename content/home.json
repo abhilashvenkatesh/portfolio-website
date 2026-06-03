@@ -5,5 +5,10 @@
     "base": "I architect systems that ",
     "accent": "scale to millions."
   },
-  "bio": "Lead Application Developer with 11+ years building distributed systems, cloud infrastructure, and engineering teams across Australia and India. Currently at Fabric Group, Melbourne."
+  "bio": "Lead Application Developer with 11+ years building distributed systems, cloud infrastructure, and engineering teams across Australia and India. Currently at Fabric Group, Melbourne.",
+  "stats": [
+    { "value": "11+", "label": "years experience" },
+    { "value": "30+", "label": "microservices shipped" },
+    { "value": "3", "label": "countries worked in" }
+  ]
 }

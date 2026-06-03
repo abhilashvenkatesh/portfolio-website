@@ -1,5 +1,6 @@
 import type { HomeContent } from "@/lib/types";
 import { AccentTag } from "@/components/ui/AccentTag";
+import { StatsBar } from "@/components/home/StatsBar";
 
 export function HeroSection({ content }: { content: HomeContent }) {
   return (
@@ -21,6 +22,8 @@ export function HeroSection({ content }: { content: HomeContent }) {
         <p className="text-[clamp(16px,2vw,19px)] text-secondary font-light max-w-[520px] leading-[1.7] mx-auto mb-10">
           {content.bio}
         </p>
+
+        <StatsBar stats={content.stats} />
       </div>
     </section>
   );

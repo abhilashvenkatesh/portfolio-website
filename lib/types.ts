@@ -1,3 +1,8 @@
+export interface HomeStat {
+  value: string;
+  label: string;
+}
+
 export interface HomeContent {
   roleBadge: string;
   headline: string;
@@ -6,6 +11,7 @@ export interface HomeContent {
     accent: string;
   };
   bio: string;
+  stats: HomeStat[];
 }
 
 export interface Contact {
