@@ -28,4 +28,8 @@ export interface Contact {
     show: boolean;
     message: string;
   };
+  header: {
+    label: string;
+    subtitle: string;
+  };
 }

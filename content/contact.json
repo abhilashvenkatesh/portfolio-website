@@ -6,5 +6,9 @@
   "availability": {
     "show": true,
     "message": "Open to new opportunities"
+  },
+  "header": {
+    "label": "Get in touch",
+    "subtitle": "Let's work together"
   }
 }
